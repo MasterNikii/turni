@@ -48,7 +48,7 @@
                 "inizio": "19.37",
                 "fine": "19.42",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": null,
+                "pausa": "",
                 "forfait": true
             },
             {
@@ -66,7 +66,7 @@
                 "inizio": "23.21",
                 "fine": "01.08",
                 "a": "DEPOSITO GEST",
-                "pausa": null,
+                "pausa": "",
                 "forfait": false
             }
         ]
