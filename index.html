@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Turni Tramvia</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --green: #22c55e; --text: #f1f5f9; --dim: #94a3b8; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; display: none; } /* Nascosto di default */
+        
+        .nav { display: flex; gap: 8px; margin-bottom: 15px; background: #131b2e; padding: 5px; border-radius: 10px; }
+        .nav-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; background: none; color: var(--dim); font-weight: bold; cursor: pointer; }
+        .nav-btn.active { background: var(--accent); color: #0f172a; }
+
+        .card { background: var(--card); border-radius: 12px; margin-bottom: 12px; border: 1px solid #334155; overflow: hidden; }
+        .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .card-header:active { background: #2d3a4f; }
+        
+        .title-main { font-size: 1.1rem; font-weight: bold; display: block; }
+        .title-sub { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
+        .time-badge { color: var(--green); font-weight: bold; font-size: 1.1rem; }
+
+        .details { display: none; padding: 15px; border-top: 1px solid #334155; background: #162033; }
+        .card.open .details { display: block; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; text-align: center; }
+        .stat-item { background: #0f172a; padding: 8px; border-radius: 6px; }
+        .stat-label { font-size: 0.6rem; color: var(--dim); text-transform: uppercase; }
+        .stat-val { display: block; font-weight: bold; color: var(--accent); }
+
+        .trip { border-left: 2px solid var(--accent); margin-left: 10px; padding-left: 15px; margin-bottom: 15px; position: relative; }
+        .trip::before { content: ''; position: absolute; left: -6px; top: 0; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; }
+        .trip-time { color: var(--green); font-weight: bold; font-size: 0.9rem; }
+        .trip-loc { font-size: 0.9rem; margin: 2px 0; }
+        
+        .riposo { padding: 15px; text-align: center; color: var(--dim); border: 1px dashed #334155; border-radius: 12px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <button class="nav-btn active" onclick="setTab('futuri', this)">PROGRAMMA</button>
+        <button class="nav-btn" onclick="setTab('passati', this)">ARCHIVIO</button>
+        <button class="nav-btn" onclick="setTab('tutti', this)">TUTTI</button>
+    </div>
+
+    <div id="container"></div>
+
+    <script>
+        // --- CONFIGURAZIONE SICUREZZA ---
+        const PASSWORD_SITO = "2007"; // CAMBIA QUI LA TUA PASSWORD
+        
+        function verificaAccesso() {
+            const inserita = prompt("Inserisci la password per visualizzare i turni:");
+            if (inserita === PASSWORD_SITO) {
+                document.body.style.display = "block"; // Mostra il sito
+                init(); // Carica i dati
+            } else {
+                alert("Password errata!");
+                window.location.reload(); // Ricarica per riprovare
+            }
+        }
+
+        // --- LOGICA DATI ---
+        let dataStore = [];
+        let currentTab = 'futuri';
+
+        async function init() {
+            try {
+                // Aggiungiamo un timestamp per evitare che il cellulare legga dati vecchi in cache
+                const r = await fetch('turni.json?t=' + new Date().getTime());
+                dataStore = await r.json();
+                render();
+            } catch (e) {
+                document.getElementById('container').innerHTML = "<p style='text-align:center; color:red;'>Errore caricamento dati. Verifica il file JSON.</p>";
+            }
+        }
+
+        function setTab(tab, btn) {
+            currentTab = tab;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            render();
+        }
+
+        function isPassato(dataStr) {
+            const oggi = new Date();
+            oggi.setHours(0,0,0,0);
+            const giornoMatch = dataStr.match(/\d+/);
+            if (!giornoMatch) return false;
+            
+            const giornoTurno = parseInt(giornoMatch[0]);
+            const giornoOggi = oggi.getDate();
+
+            if (giornoOggi < 5 && giornoTurno > 20) return true;
+            if (giornoOggi > 20 && giornoTurno < 5) return false;
+            return giornoTurno < giornoOggi;
+        }
+
+        function render() {
+            const container = document.getElementById('container');
+            container.innerHTML = '';
+
+            const filtrati = dataStore.filter(t => {
+                if (currentTab === 'tutti') return true;
+                const dataRiferimento = t.riposo ? t.data_estesa : t.data;
+                const passato = isPassato(dataRiferimento);
+                return currentTab === 'passati' ? passato : !passato;
+            });
+
+            if (filtrati.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:#94a3b8; margin-top:50px;'>Nessun turno trovato.</p>";
+                return;
+            }
+
+            filtrati.forEach(t => {
+                if (t.riposo) {
+                    container.innerHTML += `<div class="riposo"><b>${t.data_estesa}</b><br>RIPOSO</div>`;
+                    return;
+                }
+
+                const viaggiHtml = t.viaggi.map(v => `
+                    <div class="trip">
+                        <div class="trip-time">${v.inizio} → ${v.fine} <small style="float:right; color:#64748b">${v.tipo}</small></div>
+                        <div class="trip-loc"><span style="color:#64748b">DA:</span> ${v.da}</div>
+                        <div class="trip-loc"><span style="color:#64748b">A:</span> ${v.a}</div>
+                    </div>
+                `).join('');
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+                        <div>
+                            <span class="title-main">${t.data}</span>
+                            <span class="title-sub">TURNO ${t.servizio}</span>
+                        </div>
+                        <div class="time-badge">${t.orario}</div>
+                    </div>
+                    <div class="details">
+                        <div class="stats-grid">
+                            <div class="stat-item"><span class="stat-label">Nastro</span><span class="stat-val">${t.nastro}</span></div>
+                            <div class="stat-item"><span class="stat-label">Lavoro</span><span class="stat-val">${t.lavoro}</span></div>
+                            <div class="stat-item"><span class="stat-label">Guida</span><span class="stat-val">${t.guida}</span></div>
+                        </div>
+                        ${viaggiHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Avvio del controllo password all'apertura
+        window.onload = verificaAccesso;
+    </script>
+</body>
+</html>
