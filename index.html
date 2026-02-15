@@ -6,11 +6,9 @@
     <title>Turni Nikita - Tramvia</title>
     <script src="turni.js"></script>
     <style>
-        /* COLORI E STILE GENERALE */
         body { font-family: 'Segoe UI', Roboto, sans-serif; background: #0b1120; margin: 0; padding: 15px; color: white; }
         .container { max-width: 500px; margin: auto; }
         
-        /* BOX COUNTDOWN - STILE DARK GOLD */
         .countdown-box {
             background: linear-gradient(145deg, #1e293b, #0f172a);
             border: 1px solid #334155; border-radius: 20px; padding: 20px;
@@ -19,7 +17,6 @@
         .countdown-label { font-size: 0.85em; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
         #timer { font-size: 1.8em; font-weight: bold; color: #fbbf24; display: block; margin-top: 10px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
 
-        /* CARD DEI TURNI */
         .card { 
             background: #1e293b; border-radius: 15px; margin-bottom: 12px;
             border: 1px solid #334155; overflow: hidden; transition: all 0.3s ease;
@@ -27,32 +24,20 @@
         .card.riposo { border-left: 6px solid #64748b; opacity: 0.8; }
         .card.servizio { border-left: 6px solid #3b82f6; }
         
-        /* INTESTAZIONE CARD (Cliccabile) */
-        .header { 
-            padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-        }
+        .header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .header:hover { background: #334155; }
         .data-testo { font-weight: 600; color: #f1f5f9; font-size: 1.1em; }
         .servizio-tag { background: #3b82f6; color: white; padding: 5px 12px; border-radius: 8px; font-size: 0.9em; font-weight: bold; }
 
-        /* CONTENUTO (ACCORDION) */
         .content { display: none; padding: 15px; background: #0f172a; border-top: 1px solid #334155; }
         .card.open .content { display: block; }
 
-        /* RIGHE VIAGGIO */
-        .viaggio { 
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 0; border-bottom: 1px solid #1e293b; 
-        }
+        .viaggio { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1e293b; }
         .orari { color: #f87171; font-weight: bold; font-size: 1.1em; min-width: 70px; line-height: 1.3; }
         .stazioni { flex-grow: 1; padding: 0 15px; font-size: 0.9em; color: #cbd5e1; border-left: 1px solid #334155; margin-left: 10px; }
         .stazione-riga { margin-bottom: 4px; display: block; }
         
-        .pausa-box { 
-            background: rgba(34, 197, 94, 0.1); color: #4ade80; 
-            padding: 10px; border-radius: 10px; margin-top: 12px; 
-            font-size: 0.9em; text-align: center; border: 1px solid rgba(34, 197, 94, 0.2);
-        }
+        .pausa-box { background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 10px; border-radius: 10px; margin-top: 12px; font-size: 0.9em; text-align: center; border: 1px solid rgba(34, 197, 94, 0.2); }
         .tm-info { font-size: 0.8em; color: #94a3b8; background: #334155; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
     </style>
 </head>
@@ -61,16 +46,17 @@
 <div class="container">
     <div class="countdown-box">
         <span class="countdown-label">Prossimo turno inizia tra</span>
-        <span id="timer">---</span>
+        <span id="timer">INIZIALIZZAZIONE...</span>
     </div>
-
     <div id="lista"></div>
 </div>
 
 <script>
-    // LOGICA COUNTDOWN
     function calcolaCountdown() {
-        if (typeof datiTurni === 'undefined' || datiTurni.length === 0) return;
+        if (typeof datiTurni === 'undefined' || datiTurni.length === 0) {
+            document.getElementById('timer').innerHTML = "DATI NON DISPONIBILI";
+            return;
+        }
         
         const oraAdesso = new Date();
         let prossimaData = null;
@@ -78,20 +64,19 @@
         for (let t of datiTurni) {
             if (t.riposo || !t.viaggi || t.viaggi.length === 0) continue;
             
-            // Trova il numero del giorno (es: "LUN 16" -> 16)
             const matchGiorno = t.data_estesa.match(/\d+/);
             if (!matchGiorno) continue;
             const giornoTurno = parseInt(matchGiorno[0]);
             
-            // Prendi l'ora del primo viaggio (es: "04.30")
-            const oraInizio = t.viaggi[0].inizio.replace('.', ':');
-            const h = parseInt(oraInizio.split(':')[0]);
-            const m = parseInt(oraInizio.split(':')[1]);
+            // Gestione orario (accetta 04.30 o 04:30)
+            const orarioString = t.viaggi[0].inizio.replace('.', ':');
+            const h = parseInt(orarioString.split(':')[0]);
+            const m = parseInt(orarioString.split(':')[1]);
 
             let dataTurno = new Date(oraAdesso.getFullYear(), oraAdesso.getMonth(), giornoTurno, h, m);
 
-            // Se il giorno è già passato nel mese corrente, prova il mese prossimo
-            if (giornoTurno < oraAdesso.getDate() - 2) {
+            // Correzione cambio mese (se oggi è il 30 e il turno è l'1)
+            if (giornoTurno < oraAdesso.getDate() && oraAdesso.getDate() > 20) {
                 dataTurno.setMonth(dataTurno.getMonth() + 1);
             }
 
@@ -109,20 +94,23 @@
 
         function update() {
             const ora = new Date().getTime();
-            const distanza = prossimaData - ora;
-            if (distanza < 0) { timerEl.innerHTML = "IN SERVIZIO!"; return; }
+            const distanza = prossimaData.getTime() - ora;
+            
+            if (distanza <= 0) { 
+                timerEl.innerHTML = "IN SERVIZIO!"; 
+                return; 
+            }
 
-            const h = Math.floor((distanza % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const h = Math.floor((distanza / (1000 * 60 * 60)));
             const m = Math.floor((distanza % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((distanza % (1000 * 60)) / 1000);
             
-            timerEl.innerHTML = `${h}h ${m}m ${s}s`;
+            timerEl.innerHTML = h + "h " + m + "m " + s + "s";
         }
         setInterval(update, 1000);
         update();
     }
 
-    // LOGICA GENERAZIONE LISTA
     function generaLista() {
         const contenitore = document.getElementById('lista');
         if (typeof datiTurni === 'undefined') return;
@@ -130,8 +118,6 @@
         datiTurni.forEach((t, index) => {
             const card = document.createElement('div');
             card.className = 'card ' + (t.riposo ? 'riposo' : 'servizio');
-            
-            // Solo il primo della lista si apre all'avvio
             if (index === 0) card.classList.add('open');
 
             let html = `
@@ -146,9 +132,7 @@
                 html += `<div style="text-align:center; padding:10px; color:#94a3b8;">🏠 Riposo Settimanale</div>`;
             } else {
                 t.viaggi.forEach(v => {
-                    // Filtra le righe sporche tipo "h Inizio"
                     if (v.inizio.includes('Inizio') || v.inizio === '') return;
-                    
                     html += `
                         <div class="viaggio">
                             <div class="orari">${v.inizio}<br>${v.fine}</div>
@@ -171,6 +155,8 @@
     generaLista();
     calcolaCountdown();
 </script>
+</body>
+</html>
 
 </body>
 </html>
