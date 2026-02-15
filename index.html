@@ -3,49 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tramvia App</title>
+    <title>Tramvia Dashboard</title>
     <style>
-        :root { --bg: #0b0f1a; --card: #161e2d; --accent: #38bdf8; --green: #22c55e; --text: #f1f5f9; --dim: #94a3b8; }
+        :root { --bg: #0b0f1a; --card: #161e2d; --accent: #38bdf8; --green: #22c55e; --orange: #f59e0b; --text: #f1f5f9; --dim: #94a3b8; }
         body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 12px; }
         
-        /* Login Screen */
         #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .login-box { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid #2d3a4f; text-align: center; width: 85%; max-width: 300px; }
-        input { width: 100%; padding: 15px; margin: 20px 0; border-radius: 12px; border: 1px solid #2d3a4f; background: #0b0f1a; color: white; text-align: center; font-size: 1.5rem; box-sizing: border-box; }
+        .login-box { background: var(--card); padding: 30px; border-radius: 24px; border: 1px solid #2d3a4f; text-align: center; width: 85%; max-width: 300px; }
+        input { width: 100%; padding: 15px; margin: 20px 0; border-radius: 12px; border: 1px solid #2d3a4f; background: #0b0f1a; color: white; text-align: center; font-size: 1.5rem; outline: none; }
         
-        /* Layout */
         .nav { display: flex; gap: 8px; margin-bottom: 20px; }
-        .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; background: var(--card); color: var(--dim); font-weight: bold; font-size: 0.8rem; }
+        .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; background: var(--card); color: var(--dim); font-weight: bold; }
         .nav-btn.active { background: var(--accent); color: #0b0f1a; }
 
-        .card { background: var(--card); border-radius: 18px; margin-bottom: 15px; border: 1px solid #2d3a4f; overflow: hidden; }
-        .card.today { border: 2px solid var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
+        .card { background: var(--card); border-radius: 20px; margin-bottom: 12px; border: 1px solid #2d3a4f; overflow: hidden; }
+        .card.today { border: 2px solid var(--accent); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
         
-        .countdown { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 10px; text-align: center; font-weight: bold; font-size: 0.85rem; border-bottom: 1px solid #2d3a4f; }
+        .timer { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 10px; text-align: center; font-weight: bold; font-size: 0.85rem; border-bottom: 1px solid #2d3a4f; }
         
-        .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .tm-badge { background: #2d3a4f; color: var(--accent); padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; display: inline-block; margin-top: 4px; }
-        .time-main { color: var(--green); font-weight: bold; font-size: 1.3rem; }
+        .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .tm-label { background: #2d3a4f; color: var(--accent); padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; margin-top: 4px; display: inline-block; }
+        .main-time { color: var(--green); font-weight: bold; font-size: 1.2rem; }
 
-        .details { padding: 15px; border-top: 1px solid #2d3a4f; background: rgba(0,0,0,0.1); }
-        .trip { padding: 10px 0; border-bottom: 1px solid #2d3a4f; }
-        .trip:last-child { border: none; }
-        .trip-top { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 4px; }
-        .pausa-box { color: var(--green); font-weight: bold; font-size: 0.85rem; margin-top: 6px; border-left: 3px solid var(--green); padding-left: 8px; }
+        .details { display: none; padding: 15px; border-top: 1px solid #2d3a4f; background: rgba(255,255,255,0.02); }
+        .expanded .details { display: block; }
         
+        .trip-row { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .trip-row:last-child { border: none; }
+        .trip-header { display: flex; justify-content: space-between; font-weight: bold; }
+        
+        /* Allerta Forfait */
+        .forfait-alert { 
+            background: var(--orange); color: #000; font-weight: 900; padding: 6px 12px; 
+            border-radius: 8px; font-size: 0.75rem; margin-top: 8px; display: inline-block;
+            animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        .pausa-tag { color: var(--green); font-weight: bold; font-size: 0.85rem; margin-top: 8px; background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 6px; display: inline-block; }
         .riposo { padding: 20px; text-align: center; color: var(--dim); border: 1px dashed #2d3a4f; border-radius: 15px; margin-bottom: 15px; }
+        .chevron { color: var(--dim); transition: 0.3s; margin-left: 10px; }
+        .expanded .chevron { transform: rotate(180deg); color: var(--accent); }
     </style>
 </head>
 <body>
     <div id="login-screen">
         <div class="login-box">
-            <h2>PIN ACCESSO</h2>
-            <input type="password" id="pin" inputmode="numeric" placeholder="••••">
+            <h2 style="color:var(--accent)">TRAMVIA TURNI</h2>
+            <input type="password" id="pin" inputmode="numeric" placeholder="PIN">
             <button onclick="login()" style="width:100%; padding:15px; border-radius:12px; background:var(--accent); border:none; font-weight:bold;">ENTRA</button>
         </div>
     </div>
 
-    <div id="main" style="display:none">
+    <div id="app" style="display:none">
         <div class="nav">
             <button id="f-btn" class="nav-btn active" onclick="setTab('f')">PROGRAMMA</button>
             <button id="p-btn" class="nav-btn" onclick="setTab('p')">ARCHIVIO</button>
@@ -54,42 +64,48 @@
     </div>
 
     <script>
-        let data = [];
-        let tab = 'f';
+        let turniData = [];
+        let tabAttiva = 'f';
+        let openId = null;
 
         function login() {
             if(document.getElementById('pin').value === '2007') {
-                localStorage.setItem('auth', '1');
+                localStorage.setItem('tram_auth', '1');
                 init();
             }
         }
 
         function init() {
             document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main').style.display = 'block';
+            document.getElementById('app').style.display = 'block';
             load();
-            setInterval(render, 1000);
+            setInterval(render, 1000); // Aggiorna countdown e interfaccia
         }
 
         async function load() {
             const r = await fetch('turni.json?t=' + Date.now());
-            data = await r.json();
+            turniData = await r.json();
             render();
         }
 
         function setTab(t) {
-            tab = t;
+            tabAttiva = t;
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(t+'-btn').classList.add('active');
             render();
         }
 
-        function getTimer(inizio) {
+        function toggle(id) {
+            openId = (openId === id) ? null : id;
+            render();
+        }
+
+        function getCD(inizio) {
             const ora = new Date();
             const [h, m] = inizio.split('.').map(Number);
             const target = new Date(); target.setHours(h, m, 0);
             const diff = target - ora;
-            if (diff <= 0) return "IN SERVIZIO 🚋";
+            if (diff <= 0) return "🚋 IN SERVIZIO";
             const hh = Math.floor(diff / 3600000);
             const mm = Math.floor((diff % 3600000) / 60000);
             const ss = Math.floor((diff % 60000) / 1000);
@@ -98,50 +114,56 @@
 
         function render() {
             const list = document.getElementById('list');
-            list.innerHTML = '';
-            const oggi = new Date().getDate();
+            const oggiNum = new Date().getDate();
+            let html = '';
 
-            data.forEach(t => {
-                const gT = parseInt(t.data_estesa.match(/\d+/));
-                const isOggi = gT === oggi;
-                if ((tab === 'f' && gT < oggi) || (tab === 'p' && gT >= oggi)) return;
+            turniData.forEach((t, i) => {
+                const giorno = parseInt(t.data_estesa.match(/\d+/));
+                const isOggi = giorno === oggiNum;
+                
+                if ((tabAttiva === 'f' && giorno < oggiNum) || (tabAttiva === 'p' && giorno >= oggiNum)) return;
 
                 if (t.riposo) {
-                    list.innerHTML += `<div class="riposo"><b>${t.data_estesa}</b><br>RIPOSO</div>`;
+                    html += `<div class="riposo"><b>${t.data_estesa}</b> — RIPOSO</div>`;
                     return;
                 }
 
-                const card = document.createElement('div');
-                card.className = `card ${isOggi ? 'today' : ''}`;
-                let timer = isOggi ? `<div class="countdown">${getTimer(t.orario.split('-')[0].trim())}</div>` : '';
+                const expanded = isOggi || openId === i;
+                const timer = isOggi ? `<div class="timer">${getCD(t.orario.split('-')[0].trim())}</div>` : '';
 
-                card.innerHTML = `
-                    ${timer}
-                    <div class="card-header">
-                        <div>
-                            <div style="font-weight:bold">${t.data}</div>
-                            <div class="tm-badge">TURNO ${t.servizio}</div>
-                        </div>
-                        <div class="time-main">${t.orario}</div>
-                    </div>
-                    <div class="details">
-                        ${t.viaggi.map(v => `
-                            <div class="trip">
-                                <div class="trip-top">
-                                    <span style="color:var(--accent)">TM ${v.tm || '--'}</span>
-                                    <span>${v.inizio} - ${v.fine}</span>
-                                </div>
-                                <div style="font-size:0.85rem; color:var(--dim)">${v.da} ➔ ${v.a}</div>
-                                ${v.pausa && v.pausa !== '0' ? `<div class="pausa-box">PAUSA: ${v.pausa}'</div>` : ''}
+                html += `
+                    <div class="card ${isOggi ? 'today' : ''} ${expanded ? 'expanded' : ''}">
+                        ${timer}
+                        <div class="card-header" onclick="toggle(${i})">
+                            <div>
+                                <div style="font-weight:bold">${t.data}</div>
+                                <div class="tm-label">TURNO ${t.servizio}</div>
                             </div>
-                        `).join('')}
+                            <div style="display:flex; align-items:center">
+                                <div class="main-time">${t.orario}</div>
+                                ${!isOggi ? '<span class="chevron">▼</span>' : ''}
+                            </div>
+                        </div>
+                        <div class="details">
+                            ${t.viaggi.map(v => `
+                                <div class="trip-row">
+                                    <div class="trip-header">
+                                        <span style="color:var(--accent)">TM ${v.tm}</span>
+                                        <span style="color:var(--green)">${v.inizio} - ${v.fine}</span>
+                                    </div>
+                                    <div style="font-size:0.85rem">${v.da} ➔ ${v.a}</div>
+                                    ${v.forfait ? '<div class="forfait-alert">⚠️ RAGGIUNGIMENTO FORFETTARIO</div>' : ''}
+                                    ${v.pausa ? `<div class="pausa-tag">PAUSA: ${v.pausa} min</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 `;
-                list.appendChild(card);
             });
+            list.innerHTML = html;
         }
 
-        if(localStorage.getItem('auth') === '1') init();
+        if(localStorage.getItem('tram_auth')) init();
     </script>
 </body>
 </html>
