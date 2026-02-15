@@ -1,43 +1,12 @@
 [
     {
-        "data": "Sab 14",
-        "orario": "19.28 - 01.48",
-        "nastro": "06.20",
-        "lavoro": "06.21",
-        "guida": "05.19",
-        "servizio": "3331",
-        "riposo": false,
-        "viaggi": [
-            {
-                "tipo": "Raggiungimento_Forf",
-                "da": "DEPOSITO GEST",
-                "inizio": "19.28",
-                "fine": "19.58",
-                "a": "PERETOLA AEROPORTO"
-            },
-            {
-                "tipo": "T2.1",
-                "da": "PERETOLA AEROPORTO",
-                "inizio": "19.58",
-                "fine": "21.26",
-                "a": "PERETOLA AEROPORTO"
-            },
-            {
-                "tipo": "T2.1",
-                "da": "PERETOLA AEROPORTO",
-                "inizio": "21.43",
-                "fine": "01.48",
-                "a": "DEPOSITO GEST"
-            }
-        ]
-    },
-    {
         "data": "Dom 15",
         "orario": "17.25 - 00.29",
         "nastro": "07.04",
         "lavoro": "07.04",
         "guida": "06.25",
         "servizio": "4231",
+        "data_estesa": "DOM 15",
         "riposo": false,
         "viaggi": [
             {
@@ -70,6 +39,7 @@
         "lavoro": "05.31",
         "guida": "04.55",
         "servizio": "1091",
+        "data_estesa": "LUN 16",
         "riposo": false,
         "viaggi": [
             {
@@ -97,7 +67,7 @@
     },
     {
         "servizio": "RS",
-        "data_estesa": "mar 17",
+        "data_estesa": "MAR 17",
         "riposo": true
     },
     {
@@ -107,6 +77,7 @@
         "lavoro": "06.13",
         "guida": "05.09",
         "servizio": "1311",
+        "data_estesa": "MER 18",
         "riposo": false,
         "viaggi": [
             {
@@ -139,6 +110,7 @@
         "lavoro": "05.36",
         "guida": "05.03",
         "servizio": "1371",
+        "data_estesa": "GIO 19",
         "riposo": false,
         "viaggi": [
             {
@@ -171,6 +143,7 @@
         "lavoro": "05.41",
         "guida": "04.55",
         "servizio": "2101",
+        "data_estesa": "VEN 20",
         "riposo": false,
         "viaggi": [
             {
@@ -203,6 +176,7 @@
         "lavoro": "07.00",
         "guida": "06.27",
         "servizio": "3361",
+        "data_estesa": "SAB 21",
         "riposo": false,
         "viaggi": [
             {
@@ -235,6 +209,7 @@
         "lavoro": "06.32",
         "guida": "05.29",
         "servizio": "4081",
+        "data_estesa": "DOM 22",
         "riposo": false,
         "viaggi": [
             {
@@ -269,7 +244,7 @@
     },
     {
         "servizio": "RS",
-        "data_estesa": "lun 23",
+        "data_estesa": "LUN 23",
         "riposo": true
     }
 ]
