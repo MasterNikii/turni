@@ -12,7 +12,8 @@
                 "inizio": "17.25",
                 "fine": "20.09",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "24"
+                "pausa": "24",
+                "forfait": false
             },
             {
                 "tm": "T2.1-424",
@@ -20,7 +21,8 @@
                 "inizio": "20.33",
                 "fine": "00.24",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             },
             {
                 "tm": "T2.1-424",
@@ -28,7 +30,8 @@
                 "inizio": "00.24",
                 "fine": "00.29",
                 "a": "TRONCHINO PERETOLA",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
@@ -45,7 +48,8 @@
                 "inizio": "19.37",
                 "fine": "19.42",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": null
+                "pausa": null,
+                "forfait": true
             },
             {
                 "tm": "T1.3-122",
@@ -53,7 +57,8 @@
                 "inizio": "19.42",
                 "fine": "23.05",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "16"
+                "pausa": "16",
+                "forfait": false
             },
             {
                 "tm": "T1.3-119",
@@ -61,7 +66,8 @@
                 "inizio": "23.21",
                 "fine": "01.08",
                 "a": "DEPOSITO GEST",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
@@ -83,7 +89,8 @@
                 "inizio": "17.53",
                 "fine": "18.23",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": null
+                "pausa": null,
+                "forfait": true
             },
             {
                 "tm": "T2.1-148",
@@ -91,7 +98,8 @@
                 "inizio": "18.23",
                 "fine": "19.48",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "19"
+                "pausa": "19",
+                "forfait": false
             },
             {
                 "tm": "T2.1-145",
@@ -99,7 +107,8 @@
                 "inizio": "20.07",
                 "fine": "00.07",
                 "a": "DEPOSITO GEST",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
@@ -116,7 +125,8 @@
                 "inizio": "19.22",
                 "fine": "22.09",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "18"
+                "pausa": "18",
+                "forfait": false
             },
             {
                 "tm": "T2.1-131",
@@ -124,7 +134,8 @@
                 "inizio": "22.27",
                 "fine": "00.53",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             },
             {
                 "tm": "T2.1-131",
@@ -132,7 +143,8 @@
                 "inizio": "00.53",
                 "fine": "00.58",
                 "a": "TRONCHINO PERETOLA",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
@@ -149,7 +161,8 @@
                 "inizio": "20.56",
                 "fine": "21.01",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": null
+                "pausa": null,
+                "forfait": true
             },
             {
                 "tm": "T1.3-213",
@@ -157,7 +170,8 @@
                 "inizio": "21.01",
                 "fine": "00.19",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "25"
+                "pausa": "25",
+                "forfait": false
             },
             {
                 "tm": "T1.3-216",
@@ -165,7 +179,8 @@
                 "inizio": "00.44",
                 "fine": "02.36",
                 "a": "DEPOSITO GEST",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
@@ -182,7 +197,8 @@
                 "inizio": "19.29",
                 "fine": "22.10",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "18"
+                "pausa": "18",
+                "forfait": false
             },
             {
                 "tm": "T2.1-345",
@@ -190,7 +206,8 @@
                 "inizio": "22.28",
                 "fine": "02.24",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             },
             {
                 "tm": "T2.1-345",
@@ -198,7 +215,8 @@
                 "inizio": "02.24",
                 "fine": "02.29",
                 "a": "TRONCHINO PERETOLA",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
@@ -215,7 +233,8 @@
                 "inizio": "18.26",
                 "fine": "18.51",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": null
+                "pausa": null,
+                "forfait": true
             },
             {
                 "tm": "T1.3-411",
@@ -223,7 +242,8 @@
                 "inizio": "18.51",
                 "fine": "20.34",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "23"
+                "pausa": "23",
+                "forfait": false
             },
             {
                 "tm": "T1.3-413",
@@ -231,7 +251,8 @@
                 "inizio": "20.57",
                 "fine": "00.53",
                 "a": "CAREGGI OSPEDALE",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             },
             {
                 "tm": "T1.3-413",
@@ -239,7 +260,8 @@
                 "inizio": "00.53",
                 "fine": "00.58",
                 "a": "CAREGGI SOSTA NOTTURNA",
-                "pausa": null
+                "pausa": null,
+                "forfait": false
             }
         ]
     },
