@@ -9,63 +9,45 @@
         :root { --bg: #0b1120; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; --timer: #fbbf24; --red: #f87171; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
         .container { max-width: 500px; margin: auto; }
-        
-        /* Titolo e Aggiornamento */
         .header-top { text-align: center; margin-bottom: 20px; }
         h2 { color: var(--accent); font-size: 1.2em; text-transform: uppercase; letter-spacing: 2px; margin: 10px 0; }
-        
-        /* Card Turno */
         .card { background: var(--card); border-radius: 16px; margin-bottom: 12px; border: 1px solid #334155; overflow: hidden; transition: 0.3s; }
         .card.servizio { border-left: 6px solid var(--accent); }
         .card.riposo { border-left: 6px solid #64748b; opacity: 0.8; }
-        
-        /* Countdown Giallo dentro la Card */
         .card-timer { background: rgba(251, 191, 36, 0.1); color: var(--timer); padding: 12px; text-align: center; font-weight: bold; font-size: 0.95em; border-bottom: 1px solid rgba(251, 191, 36, 0.2); display: none; }
-        
         .header-card { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .data-testo { font-weight: 600; }
         .tag { background: var(--accent); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.85em; font-weight: bold; }
-
         .content { display: none; padding: 15px; background: #0f172a; border-top: 1px solid #334155; }
         .card.open .content { display: block; }
-        
         .viaggio { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #1e293b; }
         .orari { color: var(--red); font-weight: bold; min-width: 75px; text-align: center; }
         .tratta { flex-grow: 1; padding: 0 15px; font-size: 0.9em; border-left: 1px solid #334155; }
+        .tm-label { font-size: 0.7em; color: #94a3b8; background: #334155; padding: 1px 5px; border-radius: 4px; font-family: monospace; display: inline-block; margin-bottom: 4px; }
         .pausa { background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 6px; border-radius: 6px; margin-top: 8px; text-align: center; font-size: 0.8em; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="header-top">
-        <h2>I Miei Turni</h2>
-    </div>
+    <div class="header-top"><h2>I Miei Turni</h2></div>
     <div id="lista"></div>
 </div>
-
 <script>
     function generaSito() {
         const box = document.getElementById('lista');
         if (typeof datiTurni === 'undefined') { box.innerHTML = "<p style='text-align:center'>Dati non trovati...</p>"; return; }
-
         const oraAdesso = new Date();
         let timerTrovato = false;
-
         datiTurni.forEach((t, i) => {
             const card = document.createElement('div');
             card.className = `card ${t.riposo ? 'riposo' : 'servizio'}`;
             if (i === 0) card.classList.add('open');
-
             let timerDivId = `t-${i}`;
             let htmlTimer = "";
-
-            // Logica Countdown solo per il primo turno utile
             if (!t.riposo && t.viaggi.length > 0 && !timerTrovato) {
                 const gg = parseInt(t.data_estesa.match(/\d+/));
                 const [hh, mm] = t.viaggi[0].inizio.replace('.', ':').split(':');
                 const dataT = new Date(oraAdesso.getFullYear(), oraAdesso.getMonth(), gg, hh, mm);
-
                 if (dataT > oraAdesso) {
                     htmlTimer = `<div class="card-timer" id="${timerDivId}" style="display:block">Calcolo...</div>`;
                     setInterval(() => {
@@ -81,7 +63,6 @@
                     timerTrovato = true;
                 }
             }
-
             card.innerHTML = `
                 ${htmlTimer}
                 <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
@@ -93,7 +74,10 @@
                     t.viaggi.map(v => `
                         <div class="viaggio">
                             <div class="orari">${v.inizio}<br>${v.fine}</div>
-                            <div class="tratta"><b>DA:</b> ${v.da}<br><b>A:</b> ${v.a}</div>
+                            <div class="tratta">
+                                <span class="tm-label">TM ${v.tm}</span><br>
+                                <b>DA:</b> ${v.da}<br><b>A:</b> ${v.a}
+                            </div>
                         </div>
                         ${v.pausa && v.pausa !== 'None' ? `<div class="pausa">☕ Pausa: ${v.pausa} min</div>` : ''}
                     `).join('')}
