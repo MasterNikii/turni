@@ -3,92 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turni Tramvia</title>
+    <title>Tramvia Dashboard</title>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --green: #22c55e; --text: #f1f5f9; --dim: #94a3b8; }
-        body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; }
-        #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .login-box { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid #334155; text-align: center; width: 80%; }
-        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; text-align: center; font-size: 1.2rem; box-sizing: border-box; }
-        .btn-login { background: var(--accent); color: #0f172a; border: none; padding: 12px; border-radius: 8px; font-weight: bold; width: 100%; }
-        #main-content { display: none; }
-        .nav { display: flex; gap: 8px; margin-bottom: 15px; background: #131b2e; padding: 5px; border-radius: 10px; }
-        .nav-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; color: var(--dim); background: none; font-weight: bold; font-size: 0.75rem; }
-        .nav-btn.active { background: var(--accent); color: #0f172a; }
-        .card { background: var(--card); border-radius: 12px; margin-bottom: 12px; border: 1px solid #334155; position: relative; }
-        .card.today { border: 2px solid var(--accent); }
-        .card-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .time-badge { color: var(--green); font-weight: bold; font-size: 1.1rem; }
-        .details { display: none; padding: 15px; border-top: 1px solid #334155; }
-        .card.open .details { display: block; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .stat-item { background: #0f172a; padding: 8px; border-radius: 6px; text-align: center; }
-        .stat-label { font-size: 0.6rem; color: var(--dim); text-transform: uppercase; display: block; }
-        .stat-val { font-weight: bold; color: var(--accent); }
-        .trip { border-left: 2px solid var(--accent); margin-left: 10px; padding-left: 12px; margin-bottom: 12px; }
-        .trip-time { color: var(--green); font-weight: bold; font-size: 0.85rem; }
-        .riposo { padding: 15px; text-align: center; color: var(--dim); border: 1px dashed #334155; border-radius: 12px; margin-bottom: 10px; }
+        :root { --bg: #0b0f1a; --card: #161e2d; --accent: #38bdf8; --green: #22c55e; --text: #f1f5f9; --dim: #94a3b8; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 12px; }
+        
+        /* Login */
+        #login-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-box { background: var(--card); padding: 40px; border-radius: 24px; border: 1px solid #2d3a4f; text-align: center; width: 85%; max-width: 320px; }
+        input { width: 100%; padding: 15px; margin: 20px 0; border-radius: 12px; border: 1px solid #2d3a4f; background: #0b0f1a; color: white; text-align: center; font-size: 1.8rem; box-sizing: border-box; letter-spacing: 5px; }
+        
+        /* Navigation */
+        .nav { display: flex; gap: 10px; margin-bottom: 20px; background: #131b2e; padding: 5px; border-radius: 14px; }
+        .nav-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; background: none; color: var(--dim); font-weight: bold; font-size: 0.8rem; }
+        .nav-btn.active { background: var(--accent); color: #0b0f1a; }
+
+        /* Card Turno */
+        .card { background: var(--card); border-radius: 20px; margin-bottom: 15px; border: 1px solid #2d3a4f; overflow: hidden; transition: 0.3s; }
+        .card.today { border: 2px solid var(--accent); transform: scale(1.03); box-shadow: 0 10px 40px rgba(0,0,0,0.6); margin: 20px 0; }
+        
+        .countdown-bar { background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 10px; text-align: center; font-weight: bold; font-size: 0.9rem; border-bottom: 1px solid #2d3a4f; text-transform: uppercase; }
+        
+        .card-header { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .data-info b { font-size: 1.2rem; display: block; }
+        .tm-main-badge { background: #2d3a4f; color: var(--accent); padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; margin-top: 5px; display: inline-block; }
+        .time-badge { color: var(--green); font-weight: bold; font-size: 1.4rem; }
+
+        /* Dettaglio Giri */
+        .details { padding: 0 20px 20px 20px; }
+        .trip-row { position: relative; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .trip-row:last-child { border: none; }
+        
+        .trip-meta { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 4px; }
+        .tm-val { color: var(--accent); font-size: 0.9rem; }
+        .ora-val { color: var(--green); font-size: 1rem; }
+        
+        .trip-loc { font-size: 0.85rem; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        .trip-loc i { color: var(--dim); font-style: normal; }
+        
+        .pausa-highlight { background: rgba(34, 197, 94, 0.1); color: var(--green); padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 0.85rem; margin-top: 8px; display: inline-block; border: 1px solid rgba(34, 197, 94, 0.2); }
+        
+        .riposo { padding: 25px; text-align: center; color: var(--dim); border: 1px dashed #2d3a4f; border-radius: 20px; margin-bottom: 15px; background: rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
+
     <div id="login-screen">
         <div class="login-box">
-            <h2>Tramvia Accesso</h2>
-            <input type="password" id="pass" placeholder="PIN" inputmode="numeric">
-            <button class="btn-login" onclick="check()">ENTRA</button>
+            <h2 style="margin:0; font-size: 1.2rem; color: var(--accent)">SISTEMA TURNI</h2>
+            <input type="password" id="pin" inputmode="numeric" maxlength="4" placeholder="••••">
+            <button onclick="checkAccess()" style="width:100%; padding:15px; border-radius:12px; border:none; background:var(--accent); font-weight:bold; color:#0b0f1a; font-size: 1rem;">ACCEDI</button>
         </div>
     </div>
-    <div id="main-content">
-        <div class="nav">
-            <button class="nav-btn active" onclick="setTab('futuri', this)">PROGRAMMA</button>
-            <button class="nav-btn" onclick="setTab('passati', this)">ARCHIVIO</button>
-        </div>
-        <div id="container"></div>
-    </div>
-    <script>
-        const PIN = "2007";
-        let store = [];
-        let tab = 'futuri';
 
-        window.onload = () => { if(localStorage.getItem('auth')==='1') show(); };
-        function check() { if(document.getElementById('pass').value===PIN){ localStorage.setItem('auth','1'); show(); } else alert("Errore"); }
-        function show() { document.getElementById('login-screen').style.display='none'; document.getElementById('main-content').style.display='block'; init(); }
-        async function init() { store = await (await fetch('turni.json?t='+Date.now())).json(); render(); }
-        function setTab(t, b) { tab=t; document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); render(); }
-        
-        function isPassato(d) {
-            const oggi = new Date(); oggi.setHours(0,0,0,0);
-            const gT = parseInt(d.match(/\d+/));
-            const gO = oggi.getDate();
-            if (gO < 5 && gT > 20) return true;
-            if (gO > 20 && gT < 5) return false;
-            return gT < gO;
+    <div id="app" style="display:none">
+        <div class="nav">
+            <button id="btn-f" class="nav-btn active" onclick="switchTab('f')">PROGRAMMA</button>
+            <button id="btn-p" class="nav-btn" onclick="switchTab('p')">ARCHIVIO</button>
+        </div>
+        <div id="list-container"></div>
+    </div>
+
+    <script>
+        let turniData = [];
+        let activeTab = 'f';
+
+        function checkAccess() {
+            if(document.getElementById('pin').value === '2007') {
+                localStorage.setItem('tram_logged', 'true');
+                initApp();
+            } else {
+                alert("PIN Errato");
+            }
+        }
+
+        function initApp() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            fetchData();
+            setInterval(render, 1000); // Aggiorna countdown ogni secondo
+        }
+
+        async function fetchData() {
+            try {
+                const r = await fetch('turni.json?t=' + Date.now());
+                turniData = await r.json();
+                render();
+            } catch (e) { console.error("Errore caricamento"); }
+        }
+
+        function switchTab(t) {
+            activeTab = t;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-'+t).classList.add('active');
+            render();
+        }
+
+        function getTimer(oraInizio) {
+            const ora = new Date();
+            const [h, m] = oraInizio.split('.').map(Number);
+            const target = new Date();
+            target.setHours(h, m, 0);
+            
+            const diff = target - ora;
+            if (diff <= 0) return "SERVIZIO IN CORSO 🚋";
+            
+            const hh = Math.floor(diff / 3600000);
+            const mm = Math.floor((diff % 3600000) / 60000);
+            const ss = Math.floor((diff % 60000) / 1000);
+            return `INIZIO TRA: ${hh}h ${mm}m ${ss}s`;
         }
 
         function render() {
-            const cont = document.getElementById('container'); cont.innerHTML = '';
-            const oggiG = new Date().getDate();
-            store.filter(t => isPassato(t.data_estesa) === (tab==='passati')).forEach(t => {
-                if(t.riposo) { cont.innerHTML += `<div class="riposo"><b>${t.data_estesa}</b><br>RIPOSO</div>`; return; }
-                const isOggi = parseInt(t.data_estesa.match(/\d+/)) === oggiG;
+            const container = document.getElementById('list-container');
+            container.innerHTML = '';
+            const oggiNum = new Date().getDate();
+
+            const filtrati = turniData.filter(t => {
+                const giorno = parseInt(t.data_estesa.match(/\d+/));
+                const passato = giorno < oggiNum;
+                return activeTab === 'p' ? passato : !passato;
+            });
+
+            filtrati.forEach(t => {
+                const giorno = parseInt(t.data_estesa.match(/\d+/));
+                const isOggi = giorno === oggiNum;
+
+                if (t.riposo) {
+                    container.innerHTML += `<div class="riposo"><b>${t.data_estesa}</b><br>RIPOSO</div>`;
+                    return;
+                }
+
                 const card = document.createElement('div');
-                card.className = `card ${isOggi?'today':''}`;
+                card.className = `card ${isOggi ? 'today' : ''}`;
+                
+                let countdown = isOggi ? `<div class="countdown-bar">${getTimer(t.orario.split('-')[0].trim())}</div>` : '';
+
                 card.innerHTML = `
-                    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
-                        <div><b>${t.data}</b><br><small style="color:var(--accent)">TURNO ${t.servizio}</small></div>
+                    ${countdown}
+                    <div class="card-header">
+                        <div class="data-info">
+                            <b>${t.data}</b>
+                            <span class="tm-main-badge">SERVIZIO ${t.servizio}</span>
+                        </div>
                         <div class="time-badge">${t.orario}</div>
                     </div>
                     <div class="details">
-                        <div class="stats-grid">
-                            <div class="stat-item"><span class="stat-label">Nastro</span><span class="stat-val">${t.nastro}</span></div>
-                            <div class="stat-item"><span class="stat-label">Lavoro</span><span class="stat-val">${t.lavoro}</span></div>
-                            <div class="stat-item"><span class="stat-label">Guida</span><span class="stat-val">${t.guida}</span></div>
-                        </div>
-                        ${t.viaggi.map(v=>`<div class="trip"><div class="trip-time">${v.inizio} - ${v.fine}</div><div style="font-size:0.8rem">${v.da} ➔ ${v.a}</div></div>`).join('')}
-                    </div>`;
-                cont.appendChild(card);
+                        ${t.viaggi.map(v => `
+                            <div class="trip-row">
+                                <div class="trip-meta">
+                                    <span class="tm-val">TM ${v.tm}</span>
+                                    <span class="ora-val">${v.inizio} - ${v.fine}</span>
+                                </div>
+                                <div class="trip-loc">
+                                    ${v.da} <i>➔</i> ${v.a || v.bus}
+                                </div>
+                                ${v.pausa && v.pausa !== "0" ? `<div class="pausa-highlight">PAUSA: ${v.pausa}'</div>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(card);
             });
         }
+
+        if(localStorage.getItem('tram_logged') === 'true') initApp();
     </script>
 </body>
 </html>
