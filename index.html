@@ -6,23 +6,26 @@
     <title>Turni Nikita - Tramvia</title>
     <script src="turni.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #0b1120; margin: 0; padding: 15px; color: white; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0b1120; margin: 0; padding: 15px; color: white; }
         .container { max-width: 500px; margin: auto; }
         
+        /* BOX COUNTDOWN */
         .countdown-box {
             background: linear-gradient(145deg, #1e293b, #0f172a);
             border: 1px solid #334155; border-radius: 20px; padding: 20px;
             text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-left: 5px solid #fbbf24;
         }
         .countdown-label { font-size: 0.85em; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
-        #timer { font-size: 1.8em; font-weight: bold; color: #fbbf24; display: block; margin-top: 10px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
+        #timer { font-size: 1.8em; font-weight: bold; color: #fbbf24; display: block; margin-top: 10px; }
 
+        /* CARD TURNI */
         .card { 
             background: #1e293b; border-radius: 15px; margin-bottom: 12px;
-            border: 1px solid #334155; overflow: hidden; transition: all 0.3s ease;
+            border: 1px solid #334155; overflow: hidden; transition: 0.3s;
         }
-        .card.riposo { border-left: 6px solid #64748b; opacity: 0.8; }
         .card.servizio { border-left: 6px solid #3b82f6; }
+        .card.riposo { border-left: 6px solid #64748b; opacity: 0.7; }
         
         .header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .header:hover { background: #334155; }
@@ -33,12 +36,11 @@
         .card.open .content { display: block; }
 
         .viaggio { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1e293b; }
-        .orari { color: #f87171; font-weight: bold; font-size: 1.1em; min-width: 70px; line-height: 1.3; }
-        .stazioni { flex-grow: 1; padding: 0 15px; font-size: 0.9em; color: #cbd5e1; border-left: 1px solid #334155; margin-left: 10px; }
-        .stazione-riga { margin-bottom: 4px; display: block; }
+        .orari { color: #f87171; font-weight: bold; font-size: 1.1em; min-width: 75px; }
+        .stazioni { flex-grow: 1; padding: 0 15px; font-size: 0.95em; color: #cbd5e1; border-left: 1px solid #334155; margin-left: 10px; }
         
-        .pausa-box { background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 10px; border-radius: 10px; margin-top: 12px; font-size: 0.9em; text-align: center; border: 1px solid rgba(34, 197, 94, 0.2); }
-        .tm-info { font-size: 0.8em; color: #94a3b8; background: #334155; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .pausa-box { background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 10px; border-radius: 10px; margin-top: 12px; text-align: center; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .tm-info { font-size: 0.8em; color: #94a3b8; background: #334155; padding: 2px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -46,40 +48,44 @@
 <div class="container">
     <div class="countdown-box">
         <span class="countdown-label">Prossimo turno inizia tra</span>
-        <span id="timer">INIZIALIZZAZIONE...</span>
+        <span id="timer">...caricamento...</span>
     </div>
     <div id="lista"></div>
 </div>
 
 <script>
     function calcolaCountdown() {
-        if (typeof datiTurni === 'undefined' || datiTurni.length === 0) {
-            document.getElementById('timer').innerHTML = "DATI NON DISPONIBILI";
-            return;
-        }
+        if (typeof datiTurni === 'undefined' || datiTurni.length === 0) return;
         
         const oraAdesso = new Date();
         let prossimaData = null;
 
         for (let t of datiTurni) {
+            // Saltiamo riposi o turni vuoti
             if (t.riposo || !t.viaggi || t.viaggi.length === 0) continue;
             
+            // 1. Estraiamo il numero del giorno con una Regex (cerca cifre)
             const matchGiorno = t.data_estesa.match(/\d+/);
             if (!matchGiorno) continue;
             const giornoTurno = parseInt(matchGiorno[0]);
             
-            // Gestione orario (accetta 04.30 o 04:30)
-            const orarioString = t.viaggi[0].inizio.replace('.', ':');
-            const h = parseInt(orarioString.split(':')[0]);
-            const m = parseInt(orarioString.split(':')[1]);
+            // 2. Prendiamo l'orario del PRIMO viaggio disponibile
+            // Puliamo la stringa: togliamo lettere, usiamo solo numeri e separatore
+            let oraStr = t.viaggi[0].inizio.replace('.', ':').trim();
+            const h = parseInt(oraStr.split(':')[0]);
+            const m = parseInt(oraStr.split(':')[1]);
 
+            if (isNaN(h) || isNaN(m)) continue;
+
+            // 3. Costruiamo la data del turno
             let dataTurno = new Date(oraAdesso.getFullYear(), oraAdesso.getMonth(), giornoTurno, h, m);
 
-            // Correzione cambio mese (se oggi è il 30 e il turno è l'1)
+            // Se il giorno è piccolo (es. 1) e oggi è fine mese (es. 30), è il mese prossimo
             if (giornoTurno < oraAdesso.getDate() && oraAdesso.getDate() > 20) {
                 dataTurno.setMonth(dataTurno.getMonth() + 1);
             }
 
+            // Se questa data è dopo "adesso", abbiamo trovato il prossimo turno!
             if (dataTurno > oraAdesso) {
                 prossimaData = dataTurno;
                 break;
@@ -88,7 +94,7 @@
 
         const timerEl = document.getElementById('timer');
         if (!prossimaData) {
-            timerEl.innerHTML = "FINE TURNI";
+            timerEl.innerHTML = "NESSUN TURNO DISPONIBILE";
             return;
         }
 
@@ -101,7 +107,7 @@
                 return; 
             }
 
-            const h = Math.floor((distanza / (1000 * 60 * 60)));
+            const h = Math.floor(distanza / (1000 * 60 * 60));
             const m = Math.floor((distanza % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((distanza % (1000 * 60)) / 1000);
             
@@ -118,6 +124,7 @@
         datiTurni.forEach((t, index) => {
             const card = document.createElement('div');
             card.className = 'card ' + (t.riposo ? 'riposo' : 'servizio');
+            // Apre solo il primo turno della lista
             if (index === 0) card.classList.add('open');
 
             let html = `
@@ -137,12 +144,12 @@
                         <div class="viaggio">
                             <div class="orari">${v.inizio}<br>${v.fine}</div>
                             <div class="stazioni">
-                                <span class="stazione-riga"><b>DA:</b> ${v.da}</span>
-                                <span class="stazione-riga"><b>A:</b> ${v.a}</span>
+                                <b>DA:</b> ${v.da}<br>
+                                <b>A:</b> ${v.a}
                             </div>
                             <div class="tm-info">TM ${v.tm}</div>
                         </div>
-                        ${v.pausa && v.pausa !== 'Brk min' && v.pausa !== 'None' ? `<div class="pausa-box">☕ Pausa di ${v.pausa} min</div>` : ''}
+                        ${v.pausa && v.pausa !== 'Brk min' ? `<div class="pausa-box">☕ Pausa di ${v.pausa} min</div>` : ''}
                     `;
                 });
             }
