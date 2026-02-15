@@ -43,6 +43,15 @@
         "riposo": false,
         "viaggi": [
             {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": "Brk",
+                "forfait": false
+            },
+            {
                 "tm": "",
                 "da": "DEPOSITO GEST",
                 "inizio": "19.37",
