@@ -21,7 +21,7 @@
                 "inizio": "20.33",
                 "fine": "00.24",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": null,
+                "pausa": "",
                 "forfait": false
             },
             {
@@ -30,7 +30,7 @@
                 "inizio": "00.24",
                 "fine": "00.29",
                 "a": "TRONCHINO PERETOLA",
-                "pausa": null,
+                "pausa": "",
                 "forfait": false
             }
         ]
