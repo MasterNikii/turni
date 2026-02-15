@@ -3,66 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Turni Nikita Pro</title>
+    <title>Area Riservata</title>
     <script src="turni.js"></script>
     <style>
         :root { --bg: #0b1120; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; --timer: #fbbf24; --red: #f87171; --green: #22c55e; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
-        .container { max-width: 500px; margin: auto; }
-        h2 { text-align: center; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 500px; }
         
+        /* Pulsante Turni */
+        .btn-view { 
+            background: var(--accent); color: white; border: none; padding: 18px 40px; 
+            border-radius: 12px; font-size: 1.2em; font-weight: bold; cursor: pointer;
+            margin: 50px auto; display: block; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: 0.2s;
+        }
+        .btn-view:active { transform: scale(0.95); }
+
+        h2 { text-align: center; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
         .card { background: var(--card); border-radius: 16px; margin-bottom: 12px; border: 1px solid #334155; overflow: hidden; }
         .card.servizio { border-left: 6px solid var(--accent); }
         .card.riposo { border-left: 6px solid #64748b; opacity: 0.7; }
-        
-        /* Countdown */
-        .card-timer { background: rgba(251, 191, 36, 0.1); color: var(--timer); padding: 12px; text-align: center; font-weight: bold; border-bottom: 1px solid rgba(251, 191, 36, 0.2); display: none; }
+        .card-timer { background: rgba(251, 191, 36, 0.1); color: var(--timer); padding: 12px; text-align: center; font-weight: bold; border-bottom: 1px solid rgba(251, 191, 36, 0.2); }
         
         .header-card { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .tag { background: var(--accent); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.9em; font-weight: bold; }
-
         .content { display: none; padding: 15px; background: #0f172a; border-top: 1px solid #334155; }
         .card.open .content { display: block; }
         
-        /* Viaggio e Illuminazione */
-        .viaggio { display: flex; align-items: center; padding: 12px 8px; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; border: 1px solid transparent; }
-        .viaggio.attivo { background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); }
+        .viaggio { display: flex; align-items: center; padding: 12px 8px; border-radius: 8px; margin-bottom: 5px; }
+        .viaggio.attivo { background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); }
         
         .orari { color: var(--red); font-weight: bold; min-width: 80px; text-align: center; font-size: 1.1em; }
         .tratta { flex-grow: 1; padding: 0 15px; border-left: 1px solid #334155; }
         
-        /* TM GIGANTE */
-        .tm-box { font-size: 1.2em; color: #fff; background: #334155; padding: 4px 10px; border-radius: 6px; font-family: monospace; font-weight: bold; display: inline-block; margin-bottom: 5px; border: 1px solid var(--accent); }
-        
-        .status-now { color: var(--green); font-size: 0.75em; font-weight: bold; text-transform: uppercase; display: block; margin-top: 2px; }
+        .tm-box { font-size: 1.3em; color: #fff; background: #334155; padding: 4px 12px; border-radius: 6px; font-family: monospace; font-weight: bold; display: inline-block; margin-bottom: 5px; border: 1px solid var(--accent); }
+        .status-now { color: var(--green); font-size: 0.75em; font-weight: bold; text-transform: uppercase; }
         .pausa { background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 8px; border-radius: 8px; margin-top: 5px; text-align: center; font-size: 0.9em; }
     </style>
 </head>
 <body>
-<div class="container">
+
+<div id="unlock-screen" style="display:none;">
+    <button class="btn-view" onclick="mostraTurni()">📂 Apri i Turni</button>
+</div>
+
+<div class="container" id="main-content" style="display:none;">
     <h2>I Miei Turni</h2>
     <div id="lista"></div>
 </div>
 
 <script>
-    function checkAttivo(inizio, fine, dataStr) {
-        const ora = new Date();
-        const gg = parseInt(dataStr.match(/\d+/));
-        if (ora.getDate() !== gg) return false;
-
-        const [h1, m1] = inizio.replace('.', ':').split(':');
-        const [h2, m2] = fine.replace('.', ':').split(':');
-        const d1 = new Date(); d1.setHours(h1, m1, 0);
-        const d2 = new Date(); d2.setHours(h2, m2, 0);
-        
-        return ora >= d1 && ora <= d2;
+    function generaHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash) + str.charCodeAt(i);
+            hash |= 0; 
+        }
+        return hash.toString();
     }
 
-    function generaSito() {
+    const hashCorretto = "1509442"; // "1234"
+
+    // Funzione che parte subito all'apertura del sito
+    function login() {
+        const sessione = sessionStorage.getItem("autorizzato");
+        if (sessione === "true") {
+            document.getElementById('unlock-screen').style.display = 'block';
+        } else {
+            const p = prompt("ACCESSO RISERVATO\nInserisci il PIN:");
+            if (p && generaHash(p) === hashCorretto) {
+                sessionStorage.setItem("autorizzato", "true");
+                document.getElementById('unlock-screen').style.display = 'block';
+            } else {
+                alert("PIN Errato!");
+                location.reload(); // Ricarica per richiedere il PIN
+            }
+        }
+    }
+
+    function mostraTurni() {
+        document.getElementById('unlock-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        
         const box = document.getElementById('lista');
         if (typeof datiTurni === 'undefined') return;
+
         const oraAdesso = new Date();
         let timerTrovato = false;
+        box.innerHTML = ""; 
 
         datiTurni.forEach((t, i) => {
             const card = document.createElement('div');
@@ -70,13 +98,14 @@
             if (i === 0) card.classList.add('open');
 
             let htmlTimer = "";
-            if (!t.riposo && t.viaggi.length > 0 && !timerTrovato) {
+            if (!t.riposo && t.viaggi && t.viaggi.length > 0 && !timerTrovato) {
                 const gg = parseInt(t.data_estesa.match(/\d+/));
                 const [hh, mm] = t.viaggi[0].inizio.replace('.', ':').split(':');
                 const dataT = new Date(oraAdesso.getFullYear(), oraAdesso.getMonth(), gg, hh, mm);
+                
                 if (dataT > oraAdesso) {
                     const tid = `timer-${i}`;
-                    htmlTimer = `<div class="card-timer" id="${tid}" style="display:block">...</div>`;
+                    htmlTimer = `<div class="card-timer" id="${tid}">Calcolo...</div>`;
                     setInterval(() => {
                         const diff = dataT - new Date();
                         const el = document.getElementById(tid);
@@ -106,7 +135,7 @@
                             <div class="orari">${v.inizio}<br>${v.fine}</div>
                             <div class="tratta">
                                 <div class="tm-box">TM ${v.tm}</div>
-                                ${isActive ? '<span class="status-now">● IN CORSO</span>' : ''}
+                                ${isActive ? '<br><span class="status-now">● IN CORSO</span>' : ''}
                                 <br><b>DA:</b> ${v.da}<br><b>A:</b> ${v.a}
                             </div>
                         </div>
@@ -117,7 +146,20 @@
             box.appendChild(card);
         });
     }
-    generaSito();
+
+    function checkAttivo(inizio, fine, dataStr) {
+        const ora = new Date();
+        const gg = parseInt(dataStr.match(/\d+/));
+        if (ora.getDate() !== gg) return false;
+        const [h1, m1] = inizio.replace('.', ':').split(':');
+        const [h2, m2] = fine.replace('.', ':').split(':');
+        const d1 = new Date(); d1.setHours(h1, m1, 0);
+        const d2 = new Date(); d2.setHours(h2, m2, 0);
+        return ora >= d1 && ora <= d2;
+    }
+
+    // Avvia il login appena carica la pagina
+    window.onload = login;
 </script>
 </body>
 </html>
