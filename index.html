@@ -3,163 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Area Riservata</title>
+    <title>My Tram Turni</title>
     <script src="turni.js"></script>
     <style>
-        :root { --bg: #0b1120; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; --timer: #fbbf24; --red: #f87171; --green: #22c55e; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 500px; }
+        :root { --bg: #0b1120; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; --timer: #fbbf24; --red: #f87171; --green: #22c55e; --gray: #64748b; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .wrapper { width: 100%; max-width: 500px; }
         
-        /* Pulsante Turni */
-        .btn-view { 
-            background: var(--accent); color: white; border: none; padding: 18px 40px; 
-            border-radius: 12px; font-size: 1.2em; font-weight: bold; cursor: pointer;
-            margin: 50px auto; display: block; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            transition: 0.2s;
-        }
-        .btn-view:active { transform: scale(0.95); }
+        /* Schermata Sblocco */
+        #unlock-box { text-align: center; margin-top: 80px; }
+        .btn-entra { background: var(--accent); color: white; border: none; padding: 20px 45px; border-radius: 15px; font-size: 1.4em; font-weight: bold; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4); }
 
-        h2 { text-align: center; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
-        .card { background: var(--card); border-radius: 16px; margin-bottom: 12px; border: 1px solid #334155; overflow: hidden; }
+        /* Contenuto Principale */
+        h2 { text-align: center; color: var(--accent); letter-spacing: 1px; margin-bottom: 5px; }
+        .last-update { font-size: 0.75em; color: var(--gray); text-align: center; margin-bottom: 20px; }
+        
+        .card { background: var(--card); border-radius: 18px; margin-bottom: 15px; border: 1px solid #334155; overflow: hidden; transition: 0.3s; }
         .card.servizio { border-left: 6px solid var(--accent); }
-        .card.riposo { border-left: 6px solid #64748b; opacity: 0.7; }
-        .card-timer { background: rgba(251, 191, 36, 0.1); color: var(--timer); padding: 12px; text-align: center; font-weight: bold; border-bottom: 1px solid rgba(251, 191, 36, 0.2); }
+        .card.riposo { border-left: 6px solid var(--gray); opacity: 0.6; }
         
-        .header-card { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .tag { background: var(--accent); color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.9em; font-weight: bold; }
-        .content { display: none; padding: 15px; background: #0f172a; border-top: 1px solid #334155; }
-        .card.open .content { display: block; }
+        .card-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .tag-serv { background: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.85em; font-weight: 900; }
         
-        .viaggio { display: flex; align-items: center; padding: 12px 8px; border-radius: 8px; margin-bottom: 5px; }
-        .viaggio.attivo { background: rgba(34, 197, 94, 0.15); border: 1px solid var(--green); }
+        .card-body { display: none; padding: 15px; background: #0f172a; border-top: 1px solid #334155; }
+        .card.open .card-body { display: block; }
         
-        .orari { color: var(--red); font-weight: bold; min-width: 80px; text-align: center; font-size: 1.1em; }
-        .tratta { flex-grow: 1; padding: 0 15px; border-left: 1px solid #334155; }
+        .viaggio-row { display: flex; padding: 15px 0; border-bottom: 1px solid #1e293b; }
+        .viaggio-row:last-child { border-bottom: none; }
+        .viaggio-row.attivo { background: rgba(34, 197, 94, 0.1); border-left: 4px solid var(--green); padding-left: 10px; }
         
-        .tm-box { font-size: 1.3em; color: #fff; background: #334155; padding: 4px 12px; border-radius: 6px; font-family: monospace; font-weight: bold; display: inline-block; margin-bottom: 5px; border: 1px solid var(--accent); }
-        .status-now { color: var(--green); font-size: 0.75em; font-weight: bold; text-transform: uppercase; }
-        .pausa { background: rgba(34, 197, 94, 0.1); color: #4ade80; padding: 8px; border-radius: 8px; margin-top: 5px; text-align: center; font-size: 0.9em; }
+        .ora-box { min-width: 80px; color: var(--red); font-weight: 800; font-size: 1.15em; text-align: center; line-height: 1.2; }
+        .info-box { flex-grow: 1; padding-left: 15px; }
+        
+        .tm-label { background: #334155; color: white; padding: 3px 10px; border-radius: 6px; font-weight: bold; font-family: monospace; font-size: 1.2em; border: 1px solid var(--accent); display: inline-block; }
+        .giro-label { color: var(--timer); font-weight: bold; font-size: 1em; margin-top: 6px; display: block; border: 1px dashed var(--timer); padding: 4px; border-radius: 5px; text-align: center; }
+        .tratta-desc { font-size: 0.95em; color: #cbd5e1; margin-top: 8px; line-height: 1.4; }
+        .live-tag { color: var(--green); font-size: 0.7em; font-weight: bold; vertical-align: middle; }
     </style>
 </head>
 <body>
 
-<div id="unlock-screen" style="display:none;">
-    <button class="btn-view" onclick="mostraTurni()">📂 Apri i Turni</button>
-</div>
+<div class="wrapper">
+    <div id="unlock-box" style="display:none;">
+        <button class="btn-entra" onclick="avviaSito()">📂 VEDI TURNI</button>
+    </div>
 
-<div class="container" id="main-content" style="display:none;">
-    <h2>I Miei Turni</h2>
-    <div id="lista"></div>
+    <div id="app-content" style="display:none;">
+        <div class="last-update" id="txt-update"></div>
+        <h2>I Miei Turni</h2>
+        <div id="lista-turni"></div>
+    </div>
 </div>
 
 <script>
-    function generaHash(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = ((hash << 5) - hash) + str.charCodeAt(i);
-            hash |= 0; 
-        }
-        return hash.toString();
+    const PIN_SEGRETO = "1509442"; // Questo è il PIN "1234"
+
+    function calcolaHash(testo) {
+        let h = 0;
+        for(let i = 0; i < testo.length; i++) h = Math.imul(31, h) + testo.charCodeAt(i) | 0;
+        return h.toString();
     }
 
-    const hashCorretto = "1509442"; // "1234"
-
-    // Funzione che parte subito all'apertura del sito
-    function login() {
-        const sessione = sessionStorage.getItem("autorizzato");
-        if (sessione === "true") {
-            document.getElementById('unlock-screen').style.display = 'block';
+    // Controllo Accesso con Memoria Locale
+    function verificaAccesso() {
+        if (localStorage.getItem("accesso_ok") === "true") {
+            document.getElementById('unlock-box').style.display = 'block';
         } else {
-            const p = prompt("ACCESSO RISERVATO\nInserisci il PIN:");
-            if (p && generaHash(p) === hashCorretto) {
-                sessionStorage.setItem("autorizzato", "true");
-                document.getElementById('unlock-screen').style.display = 'block';
+            let p = prompt("Sistema Protetto. Inserisci PIN:");
+            if (p && calcolaHash(p) === PIN_SEGRETO) {
+                localStorage.setItem("accesso_ok", "true");
+                document.getElementById('unlock-box').style.display = 'block';
             } else {
-                alert("PIN Errato!");
-                location.reload(); // Ricarica per richiedere il PIN
+                alert("PIN Sbagliato!");
+                location.reload();
             }
         }
     }
 
-    function mostraTurni() {
-        document.getElementById('unlock-screen').style.display = 'none';
-        document.getElementById('main-content').style.display = 'block';
-        
-        const box = document.getElementById('lista');
+    function avviaSito() {
+        document.getElementById('unlock-box').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+        costruisciLista();
+    }
+
+    function costruisciLista() {
         if (typeof datiTurni === 'undefined') return;
+        
+        document.getElementById('txt-update').innerText = "Aggiornato il: " + (window.dataAggiornamento || "N.D.");
+        
+        const container = document.getElementById('lista-turni');
+        const oggiGiorno = new Date().getDate();
 
-        const oraAdesso = new Date();
-        let timerTrovato = false;
-        box.innerHTML = ""; 
-
-        datiTurni.forEach((t, i) => {
+        datiTurni.forEach((turno, i) => {
             const card = document.createElement('div');
-            card.className = `card ${t.riposo ? 'riposo' : 'servizio'}`;
-            if (i === 0) card.classList.add('open');
-
-            let htmlTimer = "";
-            if (!t.riposo && t.viaggi && t.viaggi.length > 0 && !timerTrovato) {
-                const gg = parseInt(t.data_estesa.match(/\d+/));
-                const [hh, mm] = t.viaggi[0].inizio.replace('.', ':').split(':');
-                const dataT = new Date(oraAdesso.getFullYear(), oraAdesso.getMonth(), gg, hh, mm);
-                
-                if (dataT > oraAdesso) {
-                    const tid = `timer-${i}`;
-                    htmlTimer = `<div class="card-timer" id="${tid}">Calcolo...</div>`;
-                    setInterval(() => {
-                        const diff = dataT - new Date();
-                        const el = document.getElementById(tid);
-                        if (!el) return;
-                        if (diff <= 0) { el.innerText = "🚀 IN SERVIZIO"; return; }
-                        const h = Math.floor(diff/3600000);
-                        const m = Math.floor((diff%3600000)/60000);
-                        const s = Math.floor((diff%60000)/1000);
-                        el.innerText = `⏱️ INIZIA TRA: ${h}h ${m}m ${s}s`;
-                    }, 1000);
-                    timerTrovato = true;
-                }
-            }
+            card.className = `card ${turno.riposo ? 'riposo' : 'servizio'}`;
+            
+            // Apre automaticamente il turno di oggi
+            if (turno.data_estesa.includes(oggiGiorno.toString())) card.classList.add('open');
 
             card.innerHTML = `
-                ${htmlTimer}
-                <div class="header-card" onclick="this.parentElement.classList.toggle('open')">
-                    <span class="data-testo">${t.data_estesa}</span>
-                    <span class="tag">${t.servizio}</span>
+                <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+                    <span><b>${turno.data_estesa}</b></span>
+                    <span class="tag-serv">${turno.servizio}</span>
                 </div>
-                <div class="content">
-                    ${t.riposo ? '<div style="text-align:center;padding:10px">🏠 Riposo</div>' : 
-                    t.viaggi.map(v => {
-                        const isActive = checkAttivo(v.inizio, v.fine, t.data_estesa);
-                        return `
-                        <div class="viaggio ${isActive ? 'attivo' : ''}">
-                            <div class="orari">${v.inizio}<br>${v.fine}</div>
-                            <div class="tratta">
-                                <div class="tm-box">TM ${v.tm}</div>
-                                ${isActive ? '<br><span class="status-now">● IN CORSO</span>' : ''}
-                                <br><b>DA:</b> ${v.da}<br><b>A:</b> ${v.a}
-                            </div>
-                        </div>
-                        ${v.pausa && v.pausa !== 'None' ? `<div class="pausa">☕ Pausa: ${v.pausa} min</div>` : ''}
-                        `;
-                    }).join('')}
-                </div>`;
-            box.appendChild(card);
+                <div class="card-body">
+                    ${turno.riposo ? '<div style="text-align:center">🏠 RIPOSO</div>' : generaRighe(turno.viaggi, turno.data_estesa)}
+                </div>
+            `;
+            container.appendChild(card);
         });
     }
 
-    function checkAttivo(inizio, fine, dataStr) {
-        const ora = new Date();
-        const gg = parseInt(dataStr.match(/\d+/));
-        if (ora.getDate() !== gg) return false;
-        const [h1, m1] = inizio.replace('.', ':').split(':');
-        const [h2, m2] = fine.replace('.', ':').split(':');
-        const d1 = new Date(); d1.setHours(h1, m1, 0);
-        const d2 = new Date(); d2.setHours(h2, m2, 0);
-        return ora >= d1 && ora <= d2;
+    function generaRighe(viaggi, dataS) {
+        return viaggi.map(v => {
+            const isAttivo = checkOra(v.inizio, v.fine, dataS);
+            return `
+                <div class="viaggio-row ${isAttivo ? 'attivo' : ''}">
+                    <div class="ora-box">${v.inizio.replace('.',':')}<br>${v.fine.replace('.',':')}</div>
+                    <div class="info-box">
+                        <span class="tm-label">TM ${v.tm}</span>
+                        ${isAttivo ? ' <span class="live-tag">● LIVE</span>' : ''}
+                        
+                        ${v.durata_giro ? `<span class="giro-label">🔄 GIRO: ${v.durata_giro}</span>` : ''}
+                        
+                        <div class="tratta-desc">
+                            <b>DA:</b> ${v.da}<br>
+                            <b>A:</b> ${v.a}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
     }
 
-    // Avvia il login appena carica la pagina
-    window.onload = login;
+    function checkOra(partenza, arrivo, dataT) {
+        const adesso = new Date();
+        const giornoT = parseInt(dataT.match(/\d+/));
+        if (adesso.getDate() !== giornoT) return false;
+
+        const f = (oraStr) => {
+            let [h, m] = oraStr.replace('.', ':').split(':');
+            let d = new Date(); d.setHours(h, m, 0); return d;
+        };
+        return adesso >= f(partenza) && adesso <= f(arrivo);
+    }
+
+    window.onload = verificaAccesso;
 </script>
 </body>
 </html>
