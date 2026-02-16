@@ -1,5 +1,5 @@
-const dataAggiornamento = '16/02/2026 17:49';
-const datiTurni = [
+var dataAggiornamento = '16/02/2026 17:56';
+var datiTurni = [
     {
         "data_estesa": "LUN 16",
         "servizio": "1091",
