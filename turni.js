@@ -1,4 +1,4 @@
-const dataAggiornamento = '16/02/2026 17:30';
+const dataAggiornamento = '16/02/2026 17:36';
 const datiTurni = [
     {
         "data_estesa": "LUNED\u00cc 16 FEBBRAIO (TEST)",
@@ -94,7 +94,7 @@ const datiTurni = [
     {
         "data_estesa": "GIO 19",
         "servizio": "1371",
-        "parcheggio": null,
+        "parcheggio": "Peretola",
         "viaggi": [
             {
                 "tm": "T2.1-137",
@@ -156,7 +156,7 @@ const datiTurni = [
     {
         "data_estesa": "SAB 21",
         "servizio": "3361",
-        "parcheggio": null,
+        "parcheggio": "Peretola",
         "viaggi": [
             {
                 "tm": "T2.1-335",
@@ -187,7 +187,7 @@ const datiTurni = [
     {
         "data_estesa": "DOM 22",
         "servizio": "4081",
-        "parcheggio": null,
+        "parcheggio": "Careggi",
         "viaggi": [
             {
                 "tm": "",
