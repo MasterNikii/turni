@@ -6,75 +6,262 @@
     <title>Area Turni Nikita</title>
     <script src="turni.js"></script>
     <style>
-        :root { --bg: #0b1120; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; --red: #f87171; --green: #4ade80; --orange: #f97316; --timer: #fbbf24; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .wrapper { width: 100%; max-width: 500px; }
-        
-        #unlock-screen { text-align: center; margin-top: 80px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        .btn-main { width: 280px; color: white; border: none; padding: 20px; border-radius: 15px; font-size: 1.2em; font-weight: bold; cursor: pointer; background: var(--accent); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        :root {
+            --bg: #0b1120;
+            --card: #1e293b;
+            --accent: #3b82f6;
+            --text: #f1f5f9;
+            --red: #f87171;
+            --green: #4ade80;
+            --orange: #f97316;
+            --gray: #64748b;
+        }
 
-        .view-section { display: none; width: 100%; }
-        .back-btn { background: #1e293b; border: 1px solid #64748b; color: var(--text); padding: 8px 15px; border-radius: 10px; margin-bottom: 20px; cursor: pointer; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        .card { background: var(--card); border-radius: 18px; margin-bottom: 15px; border: 1px solid #334155; overflow: hidden; }
-        .card-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .tag-serv { background: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.85em; font-weight: 900; }
-        .card-body { display: none; padding: 0; background: #0f172a; border-top: 1px solid #334155; }
-        .card.open .card-body { display: block; }
+        .wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
 
-        /* Badge Parcheggio */
-        .park-badge { padding: 12px; text-align: center; font-weight: 900; font-size: 1em; margin: 10px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); }
-        .park-peretola { background: var(--accent); color: white; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
-        .park-careggi { background: var(--orange); color: white; box-shadow: 0 0 15px rgba(249, 115, 22, 0.5); }
+        /* Schermata Iniziale */
+        #unlock-screen {
+            text-align: center;
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
 
-        .viaggio-row { display: flex; padding: 15px; border-bottom: 1px solid #1e293b; }
-        .ora-box { min-width: 80px; color: var(--red); font-weight: 800; font-size: 1.1em; text-align: center; }
-        .info-col { flex-grow: 1; padding-left: 15px; }
-        .tm-label { background: #334155; color: white; padding: 3px 10px; border-radius: 6px; font-weight: bold; font-family: monospace; border: 1px solid var(--accent); }
-        .pausa-text { color: var(--green); font-size: 1.1em; margin-top: 10px; font-weight: 800; }
+        .btn-main {
+            width: 280px;
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            background: var(--accent);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-main:active {
+            transform: scale(0.95);
+        }
+
+        /* Sezione Visualizzazione Turni */
+        .view-section {
+            display: none;
+            width: 100%;
+        }
+
+        .header-app {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: #1e293b;
+            border: 1px solid var(--gray);
+            color: var(--text);
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        /* Card del Turno */
+        .card {
+            background: var(--card);
+            border-radius: 18px;
+            margin-bottom: 15px;
+            border: 1px solid #334155;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            padding: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag-serv {
+            background: var(--accent);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 900;
+        }
+
+        .card-body {
+            display: none;
+            padding: 0;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+        }
+
+        .card.open .card-body {
+            display: block;
+        }
+
+        /* Badge Parcheggio (Dinamici) */
+        .park-badge {
+            padding: 12px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 0.95em;
+            margin: 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            text-transform: uppercase;
+        }
+
+        .park-peretola {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .park-careggi {
+            background: var(--orange);
+            color: white;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        }
+
+        /* Righe del Viaggio */
+        .viaggio-row {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .ora-box {
+            min-width: 80px;
+            color: var(--red);
+            font-weight: 800;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .info-col {
+            flex-grow: 1;
+            padding-left: 15px;
+        }
+
+        .tm-label {
+            background: #334155;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85em;
+            border: 1px solid var(--accent);
+        }
+
+        .pausa-text {
+            color: var(--green);
+            font-size: 1.1em;
+            margin-top: 10px;
+            font-weight: 800;
+        }
     </style>
 </head>
 <body>
+
 <div class="wrapper">
     <div id="unlock-screen" style="display:none;">
         <h2 style="color:var(--accent)">Nikita Turni</h2>
         <button class="btn-main" onclick="mostraTurni()">📂 APRI TURNI</button>
+        <p style="color: var(--gray); font-size: 0.8em;">I dati si aggiornano automaticamente</p>
     </div>
 
     <div id="view-turni" class="view-section">
-        <button class="back-btn" onclick="location.reload()">← Indietro</button>
+        <div class="header-app">
+            <button class="back-btn" onclick="location.reload()">← Esci</button>
+            <span id="label-aggiornamento" style="font-size: 0.7em; color: var(--gray);"></span>
+        </div>
         <div id="container-turni"></div>
     </div>
 </div>
 
 <script>
     const PIN_HASH = "1509442"; 
-    function hashMe(str) { let h = 0; for(let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0; return h.toString(); }
+
+    function hashMe(str) {
+        let h = 0;
+        for(let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+        return h.toString();
+    }
     
+    // Controllo Accesso
     function checkAccesso() {
-        if (localStorage.getItem("aut_ok") === "true") { document.getElementById('unlock-screen').style.display = 'flex'; }
-        else { let p = prompt("PIN:"); if (p && hashMe(p) === PIN_HASH) { localStorage.setItem("aut_ok", "true"); document.getElementById('unlock-screen').style.display = 'flex'; } else { location.reload(); } }
+        if (localStorage.getItem("aut_ok") === "true") {
+            document.getElementById('unlock-screen').style.display = 'flex';
+        } else {
+            let p = prompt("Inserisci il PIN Nikita:");
+            if (p && hashMe(p) === PIN_HASH) {
+                localStorage.setItem("aut_ok", "true");
+                document.getElementById('unlock-screen').style.display = 'flex';
+            } else {
+                alert("PIN Errato!");
+                location.reload();
+            }
+        }
     }
 
+    // Navigazione
     function mostraTurni() {
         document.getElementById('unlock-screen').style.display = 'none';
         document.getElementById('view-turni').style.display = 'block';
-        if (typeof datiTurni !== 'undefined') generaGrafica(datiTurni);
+        
+        if (typeof dataAggiornamento !== 'undefined') {
+            document.getElementById('label-aggiornamento').innerText = "Aggiornato: " + dataAggiornamento;
+        }
+
+        if (typeof datiTurni !== 'undefined') {
+            generaGrafica(datiTurni);
+        } else {
+            document.getElementById('container-turni').innerHTML = "<p style='text-align:center'>Nessun dato trovato in turni.js</p>";
+        }
     }
 
+    // Generazione Elementi Grafici
     function generaGrafica(dati) {
         const container = document.getElementById('container-turni');
         container.innerHTML = "";
-        const oggi = new Date().getDate();
 
         dati.forEach((t) => {
             const card = document.createElement('div');
             card.className = "card";
-            if (t.data_estesa.includes(oggi.toString())) card.classList.add('open');
             
+            // Per il test 2343 o turni odierni, teniamo la card aperta
+            if (t.servizio === "2343" || t.data_estesa.includes(new Date().getDate().toString())) {
+                card.classList.add('open');
+            }
+
+            // Selezione Badge Parcheggio
             let parkHtml = "";
-            if(t.parcheggio === "Peretola") parkHtml = `<div class="park-badge park-peretola">🅿️ AUTO A PERETOLA</div>`;
-            if(t.parcheggio === "Careggi") parkHtml = `<div class="park-badge park-careggi">🅿️ AUTO A CAREGGI</div>`;
+            if(t.parcheggio === "Peretola") {
+                parkHtml = `<div class="park-badge park-peretola">🅿️ AUTO A PERETOLA</div>`;
+            } else if(t.parcheggio === "Careggi") {
+                parkHtml = `<div class="park-badge park-careggi">🅿️ AUTO A CAREGGI</div>`;
+            }
 
             card.innerHTML = `
                 <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
@@ -83,25 +270,31 @@
                 </div>
                 <div class="card-body">
                     ${parkHtml}
-                    ${generaViaggiGrafici(t.viaggi)}
-                </div>`;
+                    ${generaViaggiHtml(t.viaggi)}
+                </div>
+            `;
             container.appendChild(card);
         });
     }
 
-    function generaViaggiGrafici(viaggi) {
+    function generaViaggiHtml(viaggi) {
+        if (!viaggi || viaggi.length === 0) return "<p style='padding:15px'>Nessun viaggio previsto.</p>";
+        
         return viaggi.map(v => `
             <div class="viaggio-row">
                 <div class="ora-box">${v.inizio}<br>${v.fine}</div>
                 <div class="info-col">
                     <span class="tm-label">TM ${v.tm}</span><br>
-                    <div style="font-size:0.9em;color:#cbd5e1;margin-top:5px;">${v.da} > ${v.a}</div>
+                    <div style="font-size:0.9em; color:#cbd5e1; margin-top:5px;">${v.da} ➜ ${v.a}</div>
                     ${v.pausa ? `<div class="pausa-text">☕ PAUSA: ${v.pausa}</div>` : ''}
                 </div>
-            </div>`).join('');
+            </div>
+        `).join('');
     }
 
+    // Avvio
     window.onload = checkAccesso;
 </script>
+
 </body>
 </html>
