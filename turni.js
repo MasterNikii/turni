@@ -1,28 +1,5 @@
-const dataAggiornamento = '16/02/2026 17:36';
+const dataAggiornamento = '16/02/2026 17:41';
 const datiTurni = [
-    {
-        "data_estesa": "LUNED\u00cc 16 FEBBRAIO (TEST)",
-        "servizio": "2343",
-        "parcheggio": "Peretola",
-        "viaggi": [
-            {
-                "tm": "T2.1-245",
-                "da": "PERETOLA",
-                "inizio": "10:54",
-                "fine": "12:17",
-                "a": "PERETOLA",
-                "pausa": ""
-            },
-            {
-                "tm": "T2.1-237",
-                "da": "PERETOLA",
-                "inizio": "12:23",
-                "fine": "13:46",
-                "a": "PERETOLA",
-                "pausa": "45 min"
-            }
-        ]
-    },
     {
         "data_estesa": "LUN 16",
         "servizio": "1091",
@@ -34,6 +11,7 @@ const datiTurni = [
                 "inizio": "19.37",
                 "fine": "19.42",
                 "a": "VILLA COSTANZA PARTENZA",
+                "raggiungimento": true,
                 "pausa": ""
             },
             {
@@ -42,6 +20,7 @@ const datiTurni = [
                 "inizio": "19.42",
                 "fine": "23.05",
                 "a": "VILLA COSTANZA PARTENZA",
+                "raggiungimento": false,
                 "pausa": "16'"
             },
             {
@@ -50,6 +29,7 @@ const datiTurni = [
                 "inizio": "23.21",
                 "fine": "01.08",
                 "a": "DEPOSITO GEST",
+                "raggiungimento": false,
                 "pausa": ""
             }
         ]
@@ -71,6 +51,7 @@ const datiTurni = [
                 "inizio": "17.53",
                 "fine": "18.23",
                 "a": "PERETOLA AEROPORTO",
+                "raggiungimento": true,
                 "pausa": ""
             },
             {
@@ -79,6 +60,7 @@ const datiTurni = [
                 "inizio": "18.23",
                 "fine": "19.48",
                 "a": "PERETOLA AEROPORTO",
+                "raggiungimento": false,
                 "pausa": "19'"
             },
             {
@@ -87,6 +69,7 @@ const datiTurni = [
                 "inizio": "20.07",
                 "fine": "00.07",
                 "a": "DEPOSITO GEST",
+                "raggiungimento": false,
                 "pausa": ""
             }
         ]
@@ -94,7 +77,7 @@ const datiTurni = [
     {
         "data_estesa": "GIO 19",
         "servizio": "1371",
-        "parcheggio": "Peretola",
+        "parcheggio": null,
         "viaggi": [
             {
                 "tm": "T2.1-137",
@@ -102,6 +85,7 @@ const datiTurni = [
                 "inizio": "19.22",
                 "fine": "22.09",
                 "a": "PERETOLA AEROPORTO",
+                "raggiungimento": false,
                 "pausa": "18'"
             },
             {
@@ -110,6 +94,7 @@ const datiTurni = [
                 "inizio": "22.27",
                 "fine": "00.53",
                 "a": "PERETOLA AEROPORTO",
+                "raggiungimento": false,
                 "pausa": ""
             },
             {
@@ -118,6 +103,7 @@ const datiTurni = [
                 "inizio": "00.53",
                 "fine": "00.58",
                 "a": "TRONCHINO PERETOLA",
+                "raggiungimento": false,
                 "pausa": ""
             }
         ]
@@ -133,6 +119,7 @@ const datiTurni = [
                 "inizio": "20.56",
                 "fine": "21.01",
                 "a": "VILLA COSTANZA PARTENZA",
+                "raggiungimento": true,
                 "pausa": ""
             },
             {
@@ -141,6 +128,7 @@ const datiTurni = [
                 "inizio": "21.01",
                 "fine": "00.19",
                 "a": "VILLA COSTANZA PARTENZA",
+                "raggiungimento": false,
                 "pausa": "25'"
             },
             {
@@ -149,6 +137,7 @@ const datiTurni = [
                 "inizio": "00.44",
                 "fine": "02.36",
                 "a": "DEPOSITO GEST",
+                "raggiungimento": false,
                 "pausa": ""
             }
         ]
@@ -156,7 +145,7 @@ const datiTurni = [
     {
         "data_estesa": "SAB 21",
         "servizio": "3361",
-        "parcheggio": "Peretola",
+        "parcheggio": null,
         "viaggi": [
             {
                 "tm": "T2.1-335",
@@ -164,6 +153,7 @@ const datiTurni = [
                 "inizio": "19.29",
                 "fine": "22.10",
                 "a": "PERETOLA AEROPORTO",
+                "raggiungimento": false,
                 "pausa": "18'"
             },
             {
@@ -172,6 +162,7 @@ const datiTurni = [
                 "inizio": "22.28",
                 "fine": "02.24",
                 "a": "PERETOLA AEROPORTO",
+                "raggiungimento": false,
                 "pausa": ""
             },
             {
@@ -180,6 +171,7 @@ const datiTurni = [
                 "inizio": "02.24",
                 "fine": "02.29",
                 "a": "TRONCHINO PERETOLA",
+                "raggiungimento": false,
                 "pausa": ""
             }
         ]
@@ -187,7 +179,7 @@ const datiTurni = [
     {
         "data_estesa": "DOM 22",
         "servizio": "4081",
-        "parcheggio": "Careggi",
+        "parcheggio": null,
         "viaggi": [
             {
                 "tm": "",
@@ -195,6 +187,7 @@ const datiTurni = [
                 "inizio": "18.26",
                 "fine": "18.51",
                 "a": "VILLA COSTANZA PARTENZA",
+                "raggiungimento": true,
                 "pausa": ""
             },
             {
@@ -203,6 +196,7 @@ const datiTurni = [
                 "inizio": "18.51",
                 "fine": "20.34",
                 "a": "VILLA COSTANZA PARTENZA",
+                "raggiungimento": false,
                 "pausa": "23'"
             },
             {
@@ -211,6 +205,7 @@ const datiTurni = [
                 "inizio": "20.57",
                 "fine": "00.53",
                 "a": "CAREGGI OSPEDALE",
+                "raggiungimento": false,
                 "pausa": ""
             },
             {
@@ -219,6 +214,7 @@ const datiTurni = [
                 "inizio": "00.53",
                 "fine": "00.58",
                 "a": "CAREGGI SOSTA NOTTURNA",
+                "raggiungimento": false,
                 "pausa": ""
             }
         ]
