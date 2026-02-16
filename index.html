@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Area Turni Nikita</title>
+    <title>Area Turni Tramvia</title>
     <script src="turni.js"></script>
     <style>
         :root { --bg: #0b1120; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; --timer: #fbbf24; --red: #f87171; --green: #22c55e; --gray: #64748b; }
@@ -14,9 +14,11 @@
         #unlock-screen { text-align: center; margin-top: 80px; }
         .btn-entra { background: var(--accent); color: white; border: none; padding: 20px 45px; border-radius: 15px; font-size: 1.4em; font-weight: bold; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4); }
 
-        /* Titoli e Info */
         h2 { text-align: center; color: var(--accent); margin-bottom: 5px; }
         .update-info { font-size: 0.75em; color: var(--gray); text-align: center; margin-bottom: 20px; }
+        
+        /* Countdown Timer */
+        .card-timer { background: rgba(251, 191, 36, 0.1); color: var(--timer); padding: 12px; text-align: center; font-weight: bold; border-bottom: 1px solid rgba(251, 191, 36, 0.2); font-size: 1.1em; }
         
         /* Card Turno */
         .card { background: var(--card); border-radius: 18px; margin-bottom: 15px; border: 1px solid #334155; overflow: hidden; }
@@ -26,23 +28,22 @@
         .card-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .tag-serv { background: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.85em; font-weight: 900; }
         
-        .card-body { display: none; padding: 15px; background: #0f172a; border-top: 1px solid #334155; }
+        .card-body { display: none; padding: 0; background: #0f172a; border-top: 1px solid #334155; }
         .card.open .card-body { display: block; }
         
         /* Singolo Viaggio */
-        .viaggio-row { display: flex; padding: 15px 0; border-bottom: 1px solid #1e293b; }
+        .viaggio-row { display: flex; padding: 15px; border-bottom: 1px solid #1e293b; }
         .viaggio-row:last-child { border-bottom: none; }
-        .viaggio-row.attivo { background: rgba(34, 197, 94, 0.1); border-left: 4px solid var(--green); padding-left: 10px; }
+        .viaggio-row.attivo { background: rgba(34, 197, 94, 0.1); border-left: 4px solid var(--green); padding-left: 11px; }
         
         .ora-box { min-width: 80px; color: var(--red); font-weight: 800; font-size: 1.1em; text-align: center; }
-        .info-box { flex-grow: 1; padding-left: 15px; }
+        .info-col { flex-grow: 1; padding-left: 15px; }
         
         .tm-label { background: #334155; color: white; padding: 3px 10px; border-radius: 6px; font-weight: bold; font-family: monospace; font-size: 1.2em; border: 1px solid var(--accent); }
-        .giro-label { color: var(--timer); font-weight: bold; font-size: 0.95em; margin-top: 8px; display: block; background: rgba(251, 191, 36, 0.1); padding: 5px; border-radius: 5px; border: 1px dashed var(--timer); text-align: center; }
+        .giro-label { color: var(--timer); font-weight: bold; font-size: 0.95em; margin-top: 8px; display: inline-block; background: rgba(251, 191, 36, 0.1); padding: 5px 10px; border-radius: 5px; border: 1px dashed var(--timer); }
         
         .tratta-text { font-size: 0.9em; color: #cbd5e1; margin-top: 8px; }
         .status-live { color: var(--green); font-size: 0.75em; font-weight: bold; display: block; margin-top: 5px; }
-        .pausa-text { color: var(--gray); font-size: 0.8em; font-style: italic; }
     </style>
 </head>
 <body>
@@ -60,19 +61,12 @@
 </div>
 
 <script>
-    // PIN "1234"
-    const PIN_HASH = "1509442";
+    const PIN_HASH = "1509442"; // Corrisponde al PIN "1234"
 
     function hashMe(str) {
         let h = 0;
         for(let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
         return h.toString();
-    }
-
-    function sblocca() {
-        document.getElementById('unlock-screen').style.display = 'none';
-        document.getElementById('main-app').style.display = 'block';
-        caricaDati();
     }
 
     function checkAccesso() {
@@ -90,24 +84,58 @@
         }
     }
 
-    function caricaDati() {
-        if (typeof datiTurni === 'undefined') {
-            document.getElementById('lista-container').innerHTML = "Errore: dati non caricati.";
-            return;
-        }
+    function sblocca() {
+        document.getElementById('unlock-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+        caricaDati();
+        
+        // Auto-aggiorna il countdown ogni minuto
+        setInterval(caricaDati, 60000); 
+    }
 
-        // Mostra data aggiornamento
-        document.getElementById('sync-date').innerText = "Aggiornato il: " + (typeof dataAggiornamento !== 'undefined' ? dataAggiornamento : "N.D.");
+    function calcolaCountdown(viaggi, dataStr) {
+        if (!viaggi || viaggi.length === 0) return "";
+        const ora = new Date();
+        const gg = parseInt(dataStr.match(/\d+/));
+        if (ora.getDate() !== gg) return "";
+
+        const ultimoViaggio = viaggi[viaggi.length - 1];
+        let [h, m] = ultimoViaggio.fine.replace('.', ':').split(':');
+        let dFine = new Date();
+        dFine.setHours(h, m, 0);
+
+        if (ora > dFine) return "🏁 Servizio Terminato";
+
+        let diffMs = dFine - ora;
+        let diffHrs = Math.floor(diffMs / 3600000);
+        let diffMins = Math.floor((diffMs % 3600000) / 60000);
+
+        return `⏳ Fine Turno in: ${diffHrs}h ${diffMins}m`;
+    }
+
+    function caricaDati() {
+        if (typeof datiTurni === 'undefined') return;
+
+        document.getElementById('sync-date').innerText = "Dati sincronizzati il: " + (typeof dataAggiornamento !== 'undefined' ? dataAggiornamento : "N.D.");
 
         const container = document.getElementById('lista-container');
+        container.innerHTML = ""; // Svuota prima di ridisegnare
         const oggi = new Date().getDate();
 
-        datiTurni.forEach((t, i) => {
+        datiTurni.forEach((t) => {
             const card = document.createElement('div');
             card.className = `card ${t.riposo ? 'riposo' : 'servizio'}`;
             
-            // Apre auto la card di oggi
+            // Auto-apre la card di oggi
             if (t.data_estesa.includes(oggi.toString())) card.classList.add('open');
+
+            let countdownHtml = "";
+            if (!t.riposo && t.data_estesa.includes(oggi.toString())) {
+                let textCountdown = calcolaCountdown(t.viaggi, t.data_estesa);
+                if (textCountdown) {
+                    countdownHtml = `<div class="card-timer">${textCountdown}</div>`;
+                }
+            }
 
             card.innerHTML = `
                 <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
@@ -115,7 +143,8 @@
                     <span class="tag-serv">${t.servizio}</span>
                 </div>
                 <div class="card-body">
-                    ${t.riposo ? '<div style="text-align:center">🏠 RIPOSO</div>' : generaViaggiHtml(t.viaggi, t.data_estesa)}
+                    ${countdownHtml}
+                    ${t.riposo ? '<div style="text-align:center; padding: 20px;">🏠 MERITATO RIPOSO</div>' : generaViaggiHtml(t.viaggi, t.data_estesa)}
                 </div>
             `;
             container.appendChild(card);
@@ -128,16 +157,16 @@
             return `
                 <div class="viaggio-row ${attivo ? 'attivo' : ''}">
                     <div class="ora-box">${v.inizio}<br>${v.fine}</div>
-                    <div class="info-col" style="flex-grow:1; padding-left:15px;">
+                    <div class="info-col">
                         <span class="tm-label">TM ${v.tm}</span>
                         ${attivo ? ' <span class="status-live">● IN CORSO</span>' : ''}
                         
-                        ${v.durata_giro ? `<span class="giro-label">🔄 GIRO: ${v.durata_giro}</span>` : ''}
+                        ${v.durata_giro ? `<br><span class="giro-label">🔄 GIRO: ${v.durata_giro}</span>` : ''}
                         
                         <div class="tratta-text">
                             <b>DA:</b> ${v.da}<br>
                             <b>A:</b> ${v.a}
-                            ${v.pausa ? `<br><span class="pausa-text">☕ Pausa: ${v.pausa}</span>` : ''}
+                            ${v.pausa ? `<br>☕ Pausa: ${v.pausa}` : ''}
                         </div>
                     </div>
                 </div>
