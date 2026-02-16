@@ -1,4 +1,4 @@
-const dataAggiornamento = '16/02/2026 17:41';
+const dataAggiornamento = '16/02/2026 17:45';
 const datiTurni = [
     {
         "data_estesa": "LUN 16",
