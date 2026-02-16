@@ -1,9 +1,9 @@
-const dataAggiornamento = '16/02/2026 17:45';
+const dataAggiornamento = '16/02/2026 17:47';
 const datiTurni = [
     {
         "data_estesa": "LUN 16",
         "servizio": "1091",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": [
             {
                 "tm": "",
@@ -11,7 +11,9 @@ const datiTurni = [
                 "inizio": "19.37",
                 "fine": "19.42",
                 "a": "VILLA COSTANZA PARTENZA",
+                "durata_giro": "5'",
                 "raggiungimento": true,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -20,7 +22,9 @@ const datiTurni = [
                 "inizio": "19.42",
                 "fine": "23.05",
                 "a": "VILLA COSTANZA PARTENZA",
+                "durata_giro": "3:23",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": "16'"
             },
             {
@@ -29,7 +33,9 @@ const datiTurni = [
                 "inizio": "23.21",
                 "fine": "01.08",
                 "a": "DEPOSITO GEST",
+                "durata_giro": "1:47",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": ""
             }
         ]
@@ -43,7 +49,7 @@ const datiTurni = [
     {
         "data_estesa": "MER 18",
         "servizio": "1311",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": [
             {
                 "tm": "",
@@ -51,7 +57,9 @@ const datiTurni = [
                 "inizio": "17.53",
                 "fine": "18.23",
                 "a": "PERETOLA AEROPORTO",
+                "durata_giro": "30'",
                 "raggiungimento": true,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -60,7 +68,9 @@ const datiTurni = [
                 "inizio": "18.23",
                 "fine": "19.48",
                 "a": "PERETOLA AEROPORTO",
+                "durata_giro": "1:25",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": "19'"
             },
             {
@@ -69,7 +79,9 @@ const datiTurni = [
                 "inizio": "20.07",
                 "fine": "00.07",
                 "a": "DEPOSITO GEST",
+                "durata_giro": "4:00",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": ""
             }
         ]
@@ -77,7 +89,7 @@ const datiTurni = [
     {
         "data_estesa": "GIO 19",
         "servizio": "1371",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": [
             {
                 "tm": "T2.1-137",
@@ -85,7 +97,9 @@ const datiTurni = [
                 "inizio": "19.22",
                 "fine": "22.09",
                 "a": "PERETOLA AEROPORTO",
+                "durata_giro": "2:47",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": "18'"
             },
             {
@@ -94,7 +108,9 @@ const datiTurni = [
                 "inizio": "22.27",
                 "fine": "00.53",
                 "a": "PERETOLA AEROPORTO",
+                "durata_giro": "2:26",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -103,7 +119,9 @@ const datiTurni = [
                 "inizio": "00.53",
                 "fine": "00.58",
                 "a": "TRONCHINO PERETOLA",
+                "durata_giro": "5'",
                 "raggiungimento": false,
+                "scarto": true,
                 "pausa": ""
             }
         ]
@@ -111,7 +129,7 @@ const datiTurni = [
     {
         "data_estesa": "VEN 20",
         "servizio": "2101",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": [
             {
                 "tm": "",
@@ -119,7 +137,9 @@ const datiTurni = [
                 "inizio": "20.56",
                 "fine": "21.01",
                 "a": "VILLA COSTANZA PARTENZA",
+                "durata_giro": "5'",
                 "raggiungimento": true,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -128,7 +148,9 @@ const datiTurni = [
                 "inizio": "21.01",
                 "fine": "00.19",
                 "a": "VILLA COSTANZA PARTENZA",
+                "durata_giro": "3:18",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": "25'"
             },
             {
@@ -137,7 +159,9 @@ const datiTurni = [
                 "inizio": "00.44",
                 "fine": "02.36",
                 "a": "DEPOSITO GEST",
+                "durata_giro": "1:52",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": ""
             }
         ]
@@ -145,7 +169,7 @@ const datiTurni = [
     {
         "data_estesa": "SAB 21",
         "servizio": "3361",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": [
             {
                 "tm": "T2.1-335",
@@ -153,7 +177,9 @@ const datiTurni = [
                 "inizio": "19.29",
                 "fine": "22.10",
                 "a": "PERETOLA AEROPORTO",
+                "durata_giro": "2:41",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": "18'"
             },
             {
@@ -162,7 +188,9 @@ const datiTurni = [
                 "inizio": "22.28",
                 "fine": "02.24",
                 "a": "PERETOLA AEROPORTO",
+                "durata_giro": "3:56",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -171,7 +199,9 @@ const datiTurni = [
                 "inizio": "02.24",
                 "fine": "02.29",
                 "a": "TRONCHINO PERETOLA",
+                "durata_giro": "5'",
                 "raggiungimento": false,
+                "scarto": true,
                 "pausa": ""
             }
         ]
@@ -179,7 +209,7 @@ const datiTurni = [
     {
         "data_estesa": "DOM 22",
         "servizio": "4081",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": [
             {
                 "tm": "",
@@ -187,7 +217,9 @@ const datiTurni = [
                 "inizio": "18.26",
                 "fine": "18.51",
                 "a": "VILLA COSTANZA PARTENZA",
+                "durata_giro": "25'",
                 "raggiungimento": true,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -196,7 +228,9 @@ const datiTurni = [
                 "inizio": "18.51",
                 "fine": "20.34",
                 "a": "VILLA COSTANZA PARTENZA",
+                "durata_giro": "1:43",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": "23'"
             },
             {
@@ -205,7 +239,9 @@ const datiTurni = [
                 "inizio": "20.57",
                 "fine": "00.53",
                 "a": "CAREGGI OSPEDALE",
+                "durata_giro": "3:56",
                 "raggiungimento": false,
+                "scarto": false,
                 "pausa": ""
             },
             {
@@ -214,7 +250,9 @@ const datiTurni = [
                 "inizio": "00.53",
                 "fine": "00.58",
                 "a": "CAREGGI SOSTA NOTTURNA",
+                "durata_giro": "5'",
                 "raggiungimento": false,
+                "scarto": true,
                 "pausa": ""
             }
         ]
@@ -222,13 +260,13 @@ const datiTurni = [
     {
         "data_estesa": "LUN 23",
         "servizio": "RS",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": []
     },
     {
         "data_estesa": "DOM 01",
         "servizio": "Rs",
-        "parcheggio": null,
+        "riposo": false,
         "viaggi": []
     }
 ];
