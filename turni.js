@@ -1,7 +1,7 @@
-var dataAggiornamento = '17/02/2026 02:54';
+var dataAggiornamento = '17/02/2026 03:06';
 var datiTurni = [
     {
-        "data_estesa": "DOMENICA 16 FEBBRAIO",
+        "data_estesa": "LUN 16 FEBBRAIO",
         "servizio": "4232",
         "parcheggio": "Peretola",
         "viaggi": [
