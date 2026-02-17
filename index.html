@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nikita Pro</title>
-    <script src="turni.js"></script>
+    
+    <script>
+        document.write('<script src="turni.js?v=' + Date.now() + '"><\/script>');
+    </script>
+
     <style>
         :root { 
             --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f8fafc; 
@@ -84,6 +88,7 @@
             const gOggi = oggi.getDate();
             const parti = turno.data_estesa.trim().split(/\s+/);
             const gTurno = parseInt(parti[1]);
+            // Gestione fine mese/inizio mese
             if (gTurno === gOggi) return false;
             if (gTurno > gOggi) return false;
             if (gTurno < gOggi - 10) return false;
@@ -132,6 +137,7 @@
 
     function calcolaDiff(inz, fine) {
         if(!inz || !fine) return 0;
+        // Supporta sia il formato con punto che con due punti
         let t1 = new Date(`2000-01-01T${inz.replace('.',':')}:00`);
         let t2 = new Date(`2000-01-01T${fine.replace('.',':')}:00`);
         let d = (t2 - t1) / 60000;
