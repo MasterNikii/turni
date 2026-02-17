@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 18:14';
+var dataAggiornamento = '17/02/2026 18.20';
 var datiTurni = [
     {
         "data_estesa": "MAR 17",
@@ -17,7 +17,15 @@ var datiTurni = [
                 "inizio": "h Inizio",
                 "fine": "h Fine",
                 "a": "Nodo Fine",
-                "pausa": "17.53 - 18.23"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "DEPOSITO GEST",
+                "inizio": "17.53",
+                "fine": "18.23",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
             },
             {
                 "tm": "T2.1-148",
@@ -87,7 +95,15 @@ var datiTurni = [
                 "inizio": "h Inizio",
                 "fine": "h Fine",
                 "a": "Nodo Fine",
-                "pausa": "20.56 - 21.01"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "DEPOSITO GEST",
+                "inizio": "20.56",
+                "fine": "21.01",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
             },
             {
                 "tm": "T1.3-213",
@@ -157,7 +173,15 @@ var datiTurni = [
                 "inizio": "h Inizio",
                 "fine": "h Fine",
                 "a": "Nodo Fine",
-                "pausa": "18.26 - 18.51"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "CAREGGI SOSTA NOTTURNA",
+                "inizio": "18.26",
+                "fine": "18.51",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
             },
             {
                 "tm": "T1.3-411",
@@ -202,7 +226,15 @@ var datiTurni = [
                 "inizio": "h Inizio",
                 "fine": "h Fine",
                 "a": "Nodo Fine",
-                "pausa": "17.17 - 17.22"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "DEPOSITO GEST",
+                "inizio": "17.17",
+                "fine": "17.22",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
             },
             {
                 "tm": "T1.3-110",
@@ -233,7 +265,15 @@ var datiTurni = [
                 "inizio": "h Inizio",
                 "fine": "h Fine",
                 "a": "Nodo Fine",
-                "pausa": "13.48 - 13.53"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "DEPOSITO GEST",
+                "inizio": "13.48",
+                "fine": "13.53",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
             },
             {
                 "tm": "T1.3-108",
@@ -327,7 +367,15 @@ var datiTurni = [
                 "inizio": "09.47",
                 "fine": "13.10",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "13.10 - 13.15"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "13.10",
+                "fine": "13.15",
+                "a": "DEPOSITO GEST",
+                "pausa": ""
             }
         ]
     },
@@ -427,7 +475,15 @@ var datiTurni = [
                 "inizio": "07.32",
                 "fine": "09.16",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "09.16 - 09.41"
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "09.16",
+                "fine": "09.41",
+                "a": "CAREGGI SOSTA NOTTURNA",
+                "pausa": ""
             }
         ]
     },
@@ -511,7 +567,7 @@ var datiTurni = [
     },
     {
         "data_estesa": "SAB 07 MAR",
-        "servizio": "RIPOSO",
+        "servizio": "FRIC",
         "parcheggio": null,
         "viaggi": []
     },
@@ -543,24 +599,6 @@ var datiTurni = [
         "data_estesa": "VEN 13 MAR",
         "servizio": "2065",
         "parcheggio": "Careggi",
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MAR 17",
-        "servizio": "RS",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "LUN 23",
-        "servizio": "RS",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "DOM 01",
-        "servizio": "Rs",
-        "parcheggio": null,
         "viaggi": []
     }
 ];
