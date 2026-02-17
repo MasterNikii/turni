@@ -1,5 +1,11 @@
-var dataAggiornamento = '17/02/2026 17.57';
+var dataAggiornamento = '17/02/2026 17.59';
 var datiTurni = [
+    {
+        "data_estesa": "MAR 17",
+        "servizio": "RIPOSO",
+        "parcheggio": null,
+        "viaggi": []
+    },
     {
         "data_estesa": "MER 18",
         "servizio": "1311",
@@ -19,7 +25,7 @@ var datiTurni = [
                 "inizio": "18.23",
                 "fine": "19.48",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "19'"
+                "pausa": ""
             },
             {
                 "tm": "T2.1-145",
@@ -42,7 +48,7 @@ var datiTurni = [
                 "inizio": "19.22",
                 "fine": "22.09",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "18'"
+                "pausa": ""
             },
             {
                 "tm": "T2.1-131",
@@ -81,7 +87,7 @@ var datiTurni = [
                 "inizio": "21.01",
                 "fine": "00.19",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "25'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-216",
@@ -104,7 +110,7 @@ var datiTurni = [
                 "inizio": "19.29",
                 "fine": "22.10",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "18'"
+                "pausa": ""
             },
             {
                 "tm": "T2.1-345",
@@ -143,7 +149,7 @@ var datiTurni = [
                 "inizio": "18.51",
                 "fine": "20.34",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "23'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-413",
@@ -164,6 +170,12 @@ var datiTurni = [
         ]
     },
     {
+        "data_estesa": "LUN 23",
+        "servizio": "RIPOSO",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
         "data_estesa": "MAR 24",
         "servizio": "1061",
         "parcheggio": null,
@@ -182,7 +194,7 @@ var datiTurni = [
                 "inizio": "17.22",
                 "fine": "20.46",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "25'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-116",
@@ -213,7 +225,7 @@ var datiTurni = [
                 "inizio": "13.53",
                 "fine": "17.18",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "18'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-113",
@@ -236,7 +248,7 @@ var datiTurni = [
                 "inizio": "12.39",
                 "fine": "14.02",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "12'"
+                "pausa": ""
             },
             {
                 "tm": "T2.1-138",
@@ -244,7 +256,7 @@ var datiTurni = [
                 "inizio": "14.14",
                 "fine": "16.56",
                 "a": "PERETOLA AEROPORTO",
-                "pausa": "19'"
+                "pausa": ""
             },
             {
                 "tm": "T2.1-142",
@@ -267,7 +279,7 @@ var datiTurni = [
                 "inizio": "05.48",
                 "fine": "07.41",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "4'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-200",
@@ -275,7 +287,7 @@ var datiTurni = [
                 "inizio": "07.45",
                 "fine": "09.28",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "19'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-216",
@@ -322,7 +334,7 @@ var datiTurni = [
                 "inizio": "06.23",
                 "fine": "06.28",
                 "a": "TRONCHINO PERETOLA",
-                "pausa": "17'"
+                "pausa": ""
             },
             {
                 "tm": "T2.1-342",
@@ -343,6 +355,12 @@ var datiTurni = [
         ]
     },
     {
+        "data_estesa": "DOM 01",
+        "servizio": "RIPOSO",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
         "data_estesa": "LUN 02",
         "servizio": "1005",
         "parcheggio": null,
@@ -361,7 +379,7 @@ var datiTurni = [
                 "inizio": "04.45",
                 "fine": "07.16",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "16'"
+                "pausa": ""
             },
             {
                 "tm": "T1.3-111",
