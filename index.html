@@ -107,7 +107,7 @@
         return dataT < oggi;
     }
 
-    function render(tipo) {
+function render(tipo) {
         const container = document.getElementById('lista-turni');
         container.innerHTML = "";
         
@@ -124,7 +124,6 @@
         }
 
         if (tipo === 'passati') {
-            // Conta le domeniche basandosi sul calendario reale
             const numDomeniche = filtrati.filter(t => {
                 const d = parseDataTurno(t.data_estesa);
                 return d && d.getDay() === 0;
@@ -141,13 +140,49 @@
 
         filtrati.forEach((t, i) => {
             const card = document.createElement('div');
-            card.className = "card" + (i === 0 && tipo === 'attuali' ? " open" : "");
-            let badgeP = t.parcheggio ? `<div class="park-badge park-${t.parcheggio.toLowerCase()}">🅿️ AUTO A ${t.parcheggio.toUpperCase()}</div>` : "";
-            card.innerHTML = `<div class="card-header" onclick="this.parentElement.classList.toggle('open')"><b>${t.data_estesa}</b><span class="tag-serv">${t.servizio}</span></div><div class="card-body">${badgeP}${disegnaViaggi(t.viaggi)}</div>`;
+            
+            const servizioUpper = t.servizio.toUpperCase();
+            const èRiposo = servizioUpper.includes("RIPOSO") || servizioUpper.includes("RS") || servizioUpper.includes("FERIE");
+            const isLavoro = t.viaggi && t.viaggi.length > 0 && !èRiposo;
+
+            if (èRiposo) {
+                // --- VERSIONE RIPOSO: TUTTA VERDE, TAG AZZURRO ---
+                const testoServizio = servizioUpper.includes("FERIE") ? "FERIE" : "RIPOSO";
+                card.className = "card"; 
+                
+                card.style.background = "#14532d"; 
+                card.style.border = "1px solid var(--border)";
+                card.style.cursor = "default";
+                card.style.marginBottom = "10px";
+
+                card.innerHTML = `
+                    <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; color: white;">
+                        <b style="font-size: 1.1em;">${t.data_estesa}</b>
+                        <span style="background: var(--accent); color: white; padding: 5px 15px; border-radius: 6px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                            ${testoServizio}
+                        </span>
+                    </div>
+                `;
+            } else {
+                // --- VERSIONE LAVORO: CLASSICA ---
+                card.className = "card" + (i === 0 && tipo === 'attuali' ? " open" : "");
+                let badgeP = t.parcheggio ? `<div class="park-badge park-${t.parcheggio.toLowerCase()}">🅿️ AUTO A ${t.parcheggio.toUpperCase()}</div>` : "";
+                
+                card.innerHTML = `
+                    <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+                        <b>${t.data_estesa}</b>
+                        <span class="tag-serv">${t.servizio}</span>
+                    </div>
+                    <div class="card-body">
+                        ${badgeP}
+                        ${disegnaViaggi(t.viaggi)}
+                    </div>
+                `;
+            }
+            
             container.appendChild(card);
         });
     }
-
     function calcolaDiff(inz, fine) {
         if(!inz || !fine) return 0;
         let t1 = new Date(`2000-01-01T${inz.replace('.',':')}:00`);
@@ -202,20 +237,44 @@
         });
         return h;
     }
-
-    function startShiftCountdown() {
+function startShiftCountdown() {
         const display = document.getElementById('countdown-lavoro');
         const update = () => {
-            const oggi = (window.datiTurni || []).find(t => !isPassato(t) && t.viaggi && t.viaggi.length > 0);
-            if (!oggi) return;
-            let oraAttuale = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}).replace(':', '.');
-            let diff = calcolaDiff(oraAttuale, oggi.viaggi[0].inizio);
+            const adesso = new Date();
+            const oggiGiorno = adesso.getDate();
+            const oggiMese = adesso.getMonth();
+
+            // 1. Cerchiamo il turno che corrisponde ESATTAMENTE ad oggi
+            const turnoOggi = (window.datiTurni || []).find(t => {
+                const dataT = parseDataTurno(t.data_estesa);
+                return dataT && 
+                       dataT.getDate() === oggiGiorno && 
+                       dataT.getMonth() === oggiMese &&
+                       t.viaggi && t.viaggi.length > 0 &&
+                       !["RIPOSO", "FERIE", "MALATTIA"].includes(t.servizio.toUpperCase());
+            });
+
+            // 2. Se oggi non c'è lavoro o è riposo, spegni il countdown e esci
+            if (!turnoOggi) {
+                display.style.display = 'none';
+                return;
+            }
+
+            // 3. Calcoliamo la differenza oraria
+            let oraAttualeStr = adesso.toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}).replace(':', '.');
+            let diff = calcolaDiff(oraAttualeStr, turnoOggi.viaggi[0].inizio);
+
+            // 4. Mostra il countdown solo se mancano meno di 12 ore (720 min) all'inizio del turno di OGGI
             if (diff > 0 && diff < 720) {
                 display.style.display = 'block';
                 display.innerText = `⏳ INIZIA TRA: ${formatta(Math.floor(diff))}`;
-            } else { display.style.display = 'none'; }
+            } else { 
+                display.style.display = 'none'; 
+            }
         };
-        update(); setInterval(update, 60000);
+        
+        update(); 
+        setInterval(update, 60000);
     }
 </script>
 </body>
