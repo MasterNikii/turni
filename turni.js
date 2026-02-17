@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 17.59';
+var dataAggiornamento = '17/02/2026 18.05';
 var datiTurni = [
     {
         "data_estesa": "MAR 17",
@@ -12,12 +12,12 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
-                "tm": "",
-                "da": "DEPOSITO GEST",
-                "inizio": "17.53",
-                "fine": "18.23",
-                "a": "PERETOLA AEROPORTO",
-                "pausa": ""
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": "17.53 - 18.23"
             },
             {
                 "tm": "T2.1-148",
@@ -42,6 +42,14 @@ var datiTurni = [
         "servizio": "1371",
         "parcheggio": "Peretola",
         "viaggi": [
+            {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": ""
+            },
             {
                 "tm": "T2.1-137",
                 "da": "PERETOLA AEROPORTO",
@@ -74,12 +82,12 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
-                "tm": "",
-                "da": "DEPOSITO GEST",
-                "inizio": "20.56",
-                "fine": "21.01",
-                "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": "20.56 - 21.01"
             },
             {
                 "tm": "T1.3-213",
@@ -104,6 +112,14 @@ var datiTurni = [
         "servizio": "3361",
         "parcheggio": "Peretola",
         "viaggi": [
+            {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": ""
+            },
             {
                 "tm": "T2.1-335",
                 "da": "PERETOLA AEROPORTO",
@@ -136,12 +152,12 @@ var datiTurni = [
         "parcheggio": "Careggi",
         "viaggi": [
             {
-                "tm": "",
-                "da": "CAREGGI SOSTA NOTTURNA",
-                "inizio": "18.26",
-                "fine": "18.51",
-                "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": "18.26 - 18.51"
             },
             {
                 "tm": "T1.3-411",
@@ -181,12 +197,12 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
-                "tm": "",
-                "da": "DEPOSITO GEST",
-                "inizio": "17.17",
-                "fine": "17.22",
-                "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": "17.17 - 17.22"
             },
             {
                 "tm": "T1.3-110",
@@ -212,12 +228,12 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
-                "tm": "",
-                "da": "DEPOSITO GEST",
-                "inizio": "13.48",
-                "fine": "13.53",
-                "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": "13.48 - 13.53"
             },
             {
                 "tm": "T1.3-108",
@@ -242,6 +258,14 @@ var datiTurni = [
         "servizio": "1322",
         "parcheggio": null,
         "viaggi": [
+            {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": ""
+            },
             {
                 "tm": "T2.1-135",
                 "da": "PERETOLA AEROPORTO",
@@ -274,6 +298,14 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": ""
+            },
+            {
                 "tm": "T1.3-211",
                 "da": "DEPOSITO GEST",
                 "inizio": "05.48",
@@ -295,15 +327,7 @@ var datiTurni = [
                 "inizio": "09.47",
                 "fine": "13.10",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
-            },
-            {
-                "tm": "",
-                "da": "VILLA COSTANZA PARTENZA",
-                "inizio": "13.10",
-                "fine": "13.15",
-                "a": "DEPOSITO GEST",
-                "pausa": ""
+                "pausa": "13.10 - 13.15"
             }
         ]
     },
@@ -312,6 +336,14 @@ var datiTurni = [
         "servizio": "3325",
         "parcheggio": "Peretola",
         "viaggi": [
+            {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": ""
+            },
             {
                 "tm": "T2.1-335",
                 "da": "TRONCHINO PERETOLA",
@@ -366,6 +398,14 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
+                "tm": "TM",
+                "da": "Nodo Inizio",
+                "inizio": "h Inizio",
+                "fine": "h Fine",
+                "a": "Nodo Fine",
+                "pausa": ""
+            },
+            {
                 "tm": "T1.3-124",
                 "da": "CAREGGI SOSTA NOTTURNA",
                 "inizio": "04.35",
@@ -387,15 +427,7 @@ var datiTurni = [
                 "inizio": "07.32",
                 "fine": "09.16",
                 "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
-            },
-            {
-                "tm": "",
-                "da": "VILLA COSTANZA PARTENZA",
-                "inizio": "09.16",
-                "fine": "09.41",
-                "a": "CAREGGI SOSTA NOTTURNA",
-                "pausa": ""
+                "pausa": "09.16 - 09.41"
             }
         ]
     },
