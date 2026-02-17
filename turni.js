@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 13:58';
+var dataAggiornamento = '17/02/2026 16:41';
 var datiTurni = [
     {
         "data_estesa": "LUN 16 FEBBRAIO",
@@ -203,5 +203,223 @@ var datiTurni = [
         "servizio": "Rs",
         "parcheggio": null,
         "viaggi": []
+    },
+    {
+        "data_estesa": "MAR 24",
+        "servizio": "1061",
+        "parcheggio": null,
+        "viaggi": [
+            {
+                "tm": "",
+                "da": "DEPOSITO GEST",
+                "inizio": "17.17",
+                "fine": "17.22",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
+            },
+            {
+                "tm": "T1.3-110",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "17.22",
+                "fine": "20.46",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": "25'"
+            },
+            {
+                "tm": "T1.3-116",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "21.11",
+                "fine": "00.39",
+                "a": "DEPOSITO GEST",
+                "pausa": ""
+            }
+        ]
+    },
+    {
+        "data_estesa": "MER 25",
+        "servizio": "1112",
+        "parcheggio": null,
+        "viaggi": [
+            {
+                "tm": "",
+                "da": "DEPOSITO GEST",
+                "inizio": "13.48",
+                "fine": "13.53",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
+            },
+            {
+                "tm": "T1.3-108",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "13.53",
+                "fine": "17.18",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": "18'"
+            },
+            {
+                "tm": "T1.3-113",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "17.36",
+                "fine": "21.08",
+                "a": "DEPOSITO GEST",
+                "pausa": ""
+            }
+        ]
+    },
+    {
+        "data_estesa": "GIO 26",
+        "servizio": "1322",
+        "parcheggio": null,
+        "viaggi": [
+            {
+                "tm": "T2.1-135",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "12.39",
+                "fine": "14.02",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": "12'"
+            },
+            {
+                "tm": "T2.1-138",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "14.14",
+                "fine": "16.56",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": "19'"
+            },
+            {
+                "tm": "T2.1-142",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "17.15",
+                "fine": "20.00",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            }
+        ]
+    },
+    {
+        "data_estesa": "VEN 27",
+        "servizio": "2074",
+        "parcheggio": null,
+        "viaggi": [
+            {
+                "tm": "T1.3-211",
+                "da": "DEPOSITO GEST",
+                "inizio": "05.48",
+                "fine": "07.41",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": "4'"
+            },
+            {
+                "tm": "T1.3-200",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "07.45",
+                "fine": "09.28",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": "19'"
+            },
+            {
+                "tm": "T1.3-216",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "09.47",
+                "fine": "13.10",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "13.10",
+                "fine": "13.15",
+                "a": "DEPOSITO GEST",
+                "pausa": ""
+            }
+        ]
+    },
+    {
+        "data_estesa": "SAB 28",
+        "servizio": "3325",
+        "parcheggio": "Peretola",
+        "viaggi": [
+            {
+                "tm": "T2.1-335",
+                "da": "TRONCHINO PERETOLA",
+                "inizio": "04.51",
+                "fine": "05.01",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            },
+            {
+                "tm": "T2.1-335",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "05.01",
+                "fine": "06.23",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "06.23",
+                "fine": "06.28",
+                "a": "TRONCHINO PERETOLA",
+                "pausa": "17'"
+            },
+            {
+                "tm": "T2.1-342",
+                "da": "TRONCHINO PERETOLA",
+                "inizio": "06.45",
+                "fine": "06.55",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            },
+            {
+                "tm": "T2.1-342",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "06.55",
+                "fine": "10.55",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            }
+        ]
+    },
+    {
+        "data_estesa": "LUN 02",
+        "servizio": "1005",
+        "parcheggio": null,
+        "viaggi": [
+            {
+                "tm": "T1.3-124",
+                "da": "CAREGGI SOSTA NOTTURNA",
+                "inizio": "04.35",
+                "fine": "04.45",
+                "a": "CAREGGI OSPEDALE",
+                "pausa": ""
+            },
+            {
+                "tm": "T1.3-124",
+                "da": "CAREGGI OSPEDALE",
+                "inizio": "04.45",
+                "fine": "07.16",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": "16'"
+            },
+            {
+                "tm": "T1.3-111",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "07.32",
+                "fine": "09.16",
+                "a": "VILLA COSTANZA PARTENZA",
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "VILLA COSTANZA PARTENZA",
+                "inizio": "09.16",
+                "fine": "09.41",
+                "a": "CAREGGI SOSTA NOTTURNA",
+                "pausa": ""
+            }
+        ]
     }
 ];
