@@ -1,5 +1,28 @@
-var dataAggiornamento = '17/02/2026 02:47';
+var dataAggiornamento = '17/02/2026 02:54';
 var datiTurni = [
+    {
+        "data_estesa": "DOMENICA 16 FEBBRAIO",
+        "servizio": "4232",
+        "parcheggio": "Peretola",
+        "viaggi": [
+            {
+                "tm": "4232",
+                "da": "PERETOLA",
+                "inizio": "13.38",
+                "fine": "16.19",
+                "a": "PERETOLA",
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "PERETOLA",
+                "inizio": "16.19",
+                "fine": "16.35",
+                "a": "PERETOLA",
+                "pausa": "16:35"
+            }
+        ]
+    },
     {
         "data_estesa": "MAR 17",
         "servizio": "RS",
