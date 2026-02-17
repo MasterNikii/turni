@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 18.27';
+var dataAggiornamento = '17/02/2026 18.31';
 var datiTurni = [
     {
         "data_estesa": "MAR 17",
