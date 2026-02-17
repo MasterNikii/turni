@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 18.05';
+var dataAggiornamento = '17/02/2026 18:14';
 var datiTurni = [
     {
         "data_estesa": "MAR 17",
@@ -543,6 +543,24 @@ var datiTurni = [
         "data_estesa": "VEN 13 MAR",
         "servizio": "2065",
         "parcheggio": "Careggi",
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MAR 17",
+        "servizio": "RS",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "LUN 23",
+        "servizio": "RS",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "DOM 01",
+        "servizio": "Rs",
+        "parcheggio": null,
         "viaggi": []
     }
 ];
