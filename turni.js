@@ -1,28 +1,5 @@
-var dataAggiornamento = '17/02/2026 16:41';
+var dataAggiornamento = '17/02/2026 17:00';
 var datiTurni = [
-    {
-        "data_estesa": "LUN 16 FEBBRAIO",
-        "servizio": "4232",
-        "parcheggio": "Peretola",
-        "viaggi": [
-            {
-                "tm": "4232",
-                "da": "PERETOLA",
-                "inizio": "13.38",
-                "fine": "16.19",
-                "a": "PERETOLA",
-                "pausa": ""
-            },
-            {
-                "tm": "",
-                "da": "PERETOLA",
-                "inizio": "16.19",
-                "fine": "16.35",
-                "a": "PERETOLA",
-                "pausa": "16:35"
-            }
-        ]
-    },
     {
         "data_estesa": "MAR 17",
         "servizio": "RS",
@@ -156,7 +133,7 @@ var datiTurni = [
     {
         "data_estesa": "DOM 22",
         "servizio": "4081",
-        "parcheggio": "Peretola",
+        "parcheggio": "Careggi",
         "viaggi": [
             {
                 "tm": "",
@@ -195,12 +172,6 @@ var datiTurni = [
     {
         "data_estesa": "LUN 23",
         "servizio": "RS",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "DOM 01",
-        "servizio": "Rs",
         "parcheggio": null,
         "viaggi": []
     },
@@ -382,6 +353,12 @@ var datiTurni = [
                 "pausa": ""
             }
         ]
+    },
+    {
+        "data_estesa": "DOM 01",
+        "servizio": "Rs",
+        "parcheggio": null,
+        "viaggi": []
     },
     {
         "data_estesa": "LUN 02",
