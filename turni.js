@@ -1,36 +1,5 @@
-var dataAggiornamento = '17/02/2026 02:02';
+var dataAggiornamento = '17/02/2026 02:33';
 var datiTurni = [
-    {
-        "data_estesa": "LUN 16",
-        "servizio": "1091",
-        "parcheggio": null,
-        "viaggi": [
-            {
-                "tm": "",
-                "da": "DEPOSITO GEST",
-                "inizio": "19.37",
-                "fine": "19.42",
-                "a": "VILLA COSTANZA PARTENZA",
-                "pausa": ""
-            },
-            {
-                "tm": "T1.3-122",
-                "da": "VILLA COSTANZA PARTENZA",
-                "inizio": "19.42",
-                "fine": "23.05",
-                "a": "VILLA COSTANZA PARTENZA",
-                "pausa": "16'"
-            },
-            {
-                "tm": "T1.3-119",
-                "da": "VILLA COSTANZA PARTENZA",
-                "inizio": "23.21",
-                "fine": "01.08",
-                "a": "DEPOSITO GEST",
-                "pausa": ""
-            }
-        ]
-    },
     {
         "data_estesa": "MAR 17",
         "servizio": "RS",
