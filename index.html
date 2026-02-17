@@ -3,298 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Area Turni Nikita</title>
+    <title>Nikita Pro - Dashboard</title>
     <script src="turni.js"></script>
     <style>
-        :root {
-            --bg: #0b1120;
-            --card: #1e293b;
-            --accent: #3b82f6;
-            --text: #f1f5f9;
-            --red: #f87171;
-            --green: #4ade80;
-            --orange: #f97316;
-            --gray: #64748b;
+        :root { 
+            --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f8fafc; 
+            --red: #ff4d4d; --green: #22c55e; --orange: #f59e0b; --gray: #94a3b8; 
+            --border: #334155;
+        }
+        
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 10px; }
+        .wrapper { width: 100%; max-width: 480px; margin: 0 auto; }
+        
+        /* Countdown Inizio Lavoro */
+        #countdown-lavoro { 
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.05));
+            border-left: 5px solid var(--accent); color: var(--accent);
+            padding: 18px; border-radius: 10px; font-weight: 900; text-align: center;
+            font-size: 1.3em; margin-bottom: 25px; display: none;
         }
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        /* Card Giorno */
+        .card { background: var(--card); border-radius: 14px; margin-bottom: 15px; border: 1px solid var(--border); overflow: hidden; }
+        .card-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #1e293b; }
+        .card-header b { font-size: 1.25em; text-transform: uppercase; }
+        .tag-serv { background: var(--accent); color: white; padding: 6px 14px; border-radius: 8px; font-weight: 900; font-size: 1.3em; }
+        
+        /* Contenitore Viaggi - Qui abbiamo aggiunto lo stacco dall'alto */
+        .card-body { display: none; background: #111827; padding-top: 30px; padding-bottom: 30px; }
+        .card.open .card-body { display: block; }
+        
+        /* Riga Turno Guida */
+        .viaggio-row { display: flex; padding: 22px 15px; border-bottom: 1px solid var(--border); align-items: center; }
+        .ora-box { min-width: 95px; color: var(--red); font-weight: 900; text-align: center; font-size: 1.4em; border-right: 2px solid var(--border); padding-right: 15px; margin-right: 15px; line-height: 1.1; }
+        .ora-box span { font-size: 0.6em; color: var(--gray); display: block; text-transform: uppercase; margin: 3px 0; }
+        
+        /* Badge TM Riquadrato */
+        .tm-badge { 
+            display: inline-block;
+            background: var(--accent); 
+            color: white; 
+            padding: 5px 12px; 
+            border-radius: 6px; 
+            font-weight: 900; 
+            font-size: 1.1em; 
+            margin-bottom: 10px;
+            box-shadow: 0 3px 0px #1d4ed8;
         }
 
-        .wrapper {
-            width: 100%;
-            max-width: 500px;
-        }
+        .nodi { font-weight: 800; font-size: 1.3em; color: #ffffff; line-height: 1.3; }
+        .tempo-giro { color: var(--gray); font-size: 0.95em; font-weight: 600; margin-top: 6px; display: block; }
 
-        /* Schermata Iniziale */
-        #unlock-screen {
-            text-align: center;
-            margin-top: 80px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
+        /* Badge Pausa */
+        .pausa-label { margin: 25px 15px 10px 15px; padding: 12px; background: rgba(34, 197, 94, 0.1); color: var(--green); border-radius: 8px; font-weight: 900; text-align: center; border: 1px solid var(--green); font-size: 1.1em; }
 
-        .btn-main {
-            width: 280px;
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            background: var(--accent);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            transition: transform 0.2s;
-        }
-
-        .btn-main:active {
-            transform: scale(0.95);
-        }
-
-        /* Sezione Visualizzazione Turni */
-        .view-section {
-            display: none;
-            width: 100%;
-        }
-
-        .header-app {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .back-btn {
-            background: #1e293b;
-            border: 1px solid var(--gray);
-            color: var(--text);
-            padding: 8px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        /* Card del Turno */
-        .card {
-            background: var(--card);
-            border-radius: 18px;
-            margin-bottom: 15px;
-            border: 1px solid #334155;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .card-header {
-            padding: 18px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .tag-serv {
-            background: var(--accent);
-            padding: 5px 12px;
-            border-radius: 8px;
-            font-size: 0.85em;
-            font-weight: 900;
-        }
-
-        .card-body {
-            display: none;
-            padding: 0;
-            background: #0f172a;
-            border-top: 1px solid #334155;
-        }
-
-        .card.open .card-body {
-            display: block;
-        }
-
-        /* Badge Parcheggio (Dinamici) */
-        .park-badge {
-            padding: 12px;
-            text-align: center;
-            font-weight: 900;
-            font-size: 0.95em;
-            margin: 12px;
+        /* Box Raggiungimento / Spostamento - Staccato di 40px dal pezzo sopra */
+        .trasp-box { 
+            margin: 40px 15px 15px 15px; 
+            padding: 20px; 
+            background: #1e293b; 
             border-radius: 12px;
-            border: 2px solid rgba(255,255,255,0.2);
-            text-transform: uppercase;
-        }
-
-        .park-peretola {
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .park-careggi {
-            background: var(--orange);
-            color: white;
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
-        }
-
-        /* Righe del Viaggio */
-        .viaggio-row {
-            display: flex;
-            padding: 15px;
-            border-bottom: 1px solid #1e293b;
-        }
-
-        .ora-box {
-            min-width: 80px;
-            color: var(--red);
-            font-weight: 800;
+            border-left: 6px solid var(--gray); 
             font-size: 1.1em;
-            text-align: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+        }
+        .trasp-box b { font-size: 1.3em; color: var(--orange); }
+        .durata-highlight { color: #fff; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 6px; font-weight: 900; margin-top: 12px; display: inline-block; border: 1px solid rgba(255,255,255,0.2); }
+
+        /* Effetto Lampeggio Neon se > 25 min */
+        @keyframes neon-glow {
+            0% { box-shadow: 0 0 5px var(--red); border-color: var(--red); }
+            50% { box-shadow: 0 0 25px var(--red); border-color: #ff8080; }
+            100% { box-shadow: 0 0 5px var(--red); border-color: var(--red); }
+        }
+        .blink-ragg { 
+            animation: neon-glow 1.2s ease-in-out infinite; 
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-left-color: var(--red) !important;
         }
 
-        .info-col {
-            flex-grow: 1;
-            padding-left: 15px;
-        }
-
-        .tm-label {
-            background: #334155;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85em;
-            border: 1px solid var(--accent);
-        }
-
-        .pausa-text {
-            color: var(--green);
-            font-size: 1.1em;
-            margin-top: 10px;
-            font-weight: 800;
-        }
+        /* Schermata Sblocco */
+        .btn-main { background: var(--accent); color: white; border: none; padding: 22px 40px; border-radius: 15px; font-weight: 900; font-size: 1.4em; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
     </style>
 </head>
 <body>
-
 <div class="wrapper">
-    <div id="unlock-screen" style="display:none;">
-        <h2 style="color:var(--accent)">Nikita Turni</h2>
-        <button class="btn-main" onclick="mostraTurni()">📂 APRI TURNI</button>
-        <p style="color: var(--gray); font-size: 0.8em;">I dati si aggiornano automaticamente</p>
+    <div id="unlock-screen" style="text-align:center; padding-top:100px;">
+        <h1 style="color:var(--accent); font-size: 3em; margin-bottom: 5px;">NIKITA PRO</h1>
+        <p style="color: var(--gray); margin-bottom: 40px;">Sistema Gestione Turni</p>
+        <button class="btn-main" onclick="avvia()">📂 ACCEDI AI TURNI</button>
     </div>
-
-    <div id="view-turni" class="view-section">
-        <div class="header-app">
-            <button class="back-btn" onclick="location.reload()">← Esci</button>
-            <span id="label-aggiornamento" style="font-size: 0.7em; color: var(--gray);"></span>
-        </div>
-        <div id="container-turni"></div>
+    
+    <div id="app-view" style="display:none;">
+        <div id="countdown-lavoro"></div>
+        <div id="lista-turni"></div>
     </div>
 </div>
 
 <script>
-    const PIN_HASH = "1509442"; 
-
-    function hashMe(str) {
-        let h = 0;
-        for(let i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
-        return h.toString();
+    // Gestione orari con il punto come richiesto
+    function calcolaDiff(inz, fine) {
+        let t1 = new Date(`2000-01-01T${inz.replace('.',':')}:00`);
+        let t2 = new Date(`2000-01-01T${fine.replace('.',':')}:00`);
+        let d = (t2 - t1) / 60000;
+        return d < 0 ? d + 1440 : d;
     }
-    
-    // Controllo Accesso
-    function checkAccesso() {
-        if (localStorage.getItem("aut_ok") === "true") {
-            document.getElementById('unlock-screen').style.display = 'flex';
-        } else {
-            let p = prompt("Inserisci il PIN Nikita:");
-            if (p && hashMe(p) === PIN_HASH) {
-                localStorage.setItem("aut_ok", "true");
-                document.getElementById('unlock-screen').style.display = 'flex';
-            } else {
-                alert("PIN Errato!");
-                location.reload();
-            }
+
+    function formatta(m) {
+        let ore = Math.floor(m / 60);
+        let min = m % 60;
+        return ore > 0 ? `${ore}h ${min < 10 ? '0'+min : min}m` : `${min} min`;
+    }
+
+    function avvia() {
+        if (localStorage.getItem("nikita_auth_v2026") !== "y") {
+            let p = prompt("PIN:");
+            if (p === "1234") { localStorage.setItem("nikita_auth_v2026", "y"); } 
+            else { return; }
         }
-    }
-
-    // Navigazione
-    function mostraTurni() {
         document.getElementById('unlock-screen').style.display = 'none';
-        document.getElementById('view-turni').style.display = 'block';
-        
-        if (typeof dataAggiornamento !== 'undefined') {
-            document.getElementById('label-aggiornamento').innerText = "Aggiornato: " + dataAggiornamento;
-        }
-
-        if (typeof datiTurni !== 'undefined') {
-            generaGrafica(datiTurni);
-        } else {
-            document.getElementById('container-turni').innerHTML = "<p style='text-align:center'>Nessun dato trovato in turni.js</p>";
-        }
+        document.getElementById('app-view').style.display = 'block';
+        render();
+        startShiftCountdown();
     }
 
-    // Generazione Elementi Grafici
-    function generaGrafica(dati) {
-        const container = document.getElementById('container-turni');
+    function render() {
+        const container = document.getElementById('lista-turni');
         container.innerHTML = "";
-
-        dati.forEach((t) => {
+        (window.datiTurni || []).forEach((t, i) => {
             const card = document.createElement('div');
-            card.className = "card";
-            
-            // Per il test 2343 o turni odierni, teniamo la card aperta
-            if (t.servizio === "2343" || t.data_estesa.includes(new Date().getDate().toString())) {
-                card.classList.add('open');
-            }
-
-            // Selezione Badge Parcheggio
-            let parkHtml = "";
-            if(t.parcheggio === "Peretola") {
-                parkHtml = `<div class="park-badge park-peretola">🅿️ AUTO A PERETOLA</div>`;
-            } else if(t.parcheggio === "Careggi") {
-                parkHtml = `<div class="park-badge park-careggi">🅿️ AUTO A CAREGGI</div>`;
-            }
-
+            card.className = "card" + (i === 0 ? " open" : "");
             card.innerHTML = `
                 <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
-                    <span><b>${t.data_estesa}</b></span>
-                    <span class="tag-serv">${t.servizio}</span>
+                    <b>${t.data_estesa}</b> <span class="tag-serv">${t.servizio}</span>
                 </div>
                 <div class="card-body">
-                    ${parkHtml}
-                    ${generaViaggiHtml(t.viaggi)}
-                </div>
-            `;
+                    ${disegnaViaggi(t.viaggi)}
+                </div>`;
             container.appendChild(card);
         });
     }
 
-    function generaViaggiHtml(viaggi) {
-        if (!viaggi || viaggi.length === 0) return "<p style='padding:15px'>Nessun viaggio previsto.</p>";
-        
-        return viaggi.map(v => `
-            <div class="viaggio-row">
-                <div class="ora-box">${v.inizio}<br>${v.fine}</div>
-                <div class="info-col">
-                    <span class="tm-label">TM ${v.tm}</span><br>
-                    <div style="font-size:0.9em; color:#cbd5e1; margin-top:5px;">${v.da} ➜ ${v.a}</div>
-                    ${v.pausa ? `<div class="pausa-text">☕ PAUSA: ${v.pausa}</div>` : ''}
-                </div>
-            </div>
-        `).join('');
+    function disegnaViaggi(viaggi) {
+        if (!viaggi || viaggi.length === 0) return "<p style='padding:30px; color:var(--gray); text-align:center;'>RIPOSO / FERIE</p>";
+        let h = "";
+        viaggi.forEach((v, i) => {
+            let dur = calcolaDiff(v.inizio, v.fine);
+            
+            if (!v.tm) {
+                // RAGGIUNGIMENTO (Box Arancio staccato)
+                let neon = dur >= 25 ? "blink-ragg" : "";
+                h += `<div class="trasp-box ${neon}">
+                        <b>${v.inizio} ➜ ${v.fine}</b><br>
+                        <span style="font-size:0.85em; color:var(--gray); letter-spacing:1px; font-weight:bold;">RAGGIUNGIMENTO</span><br>
+                        <span style="color:#fff; font-weight:600; font-size:1.15em;">${v.da} ➜ ${v.a}</span><br>
+                        <span class="durata-highlight">⏱️ DURATA: ${formatta(dur)}</span>
+                      </div>`;
+            } else {
+                // VIAGGIO DI LINEA
+                h += `<div class="viaggio-row">
+                    <div class="ora-box">${v.inizio}<span>AL</span>${v.fine}</div>
+                    <div class="info-col">
+                        <div class="tm-badge">TM ${v.tm}</div>
+                        <div class="nodi">${v.da}<br>➜ ${v.a}</div>
+                        <span class="tempo-giro">⏱️ GIRO: ${formatta(dur)}</span>
+                    </div>
+                </div>`;
+                if (v.pausa) h += `<div class="pausa-label">☕ PAUSA: ${v.pausa}</div>`;
+            }
+
+            // Spostamento tra turni
+            if (i < viaggi.length - 1 && !v.pausa) {
+                let s = calcolaDiff(v.fine, viaggi[i+1].inizio);
+                if (s > 0) {
+                    let neon = s >= 25 ? "blink-ragg" : "";
+                    h += `<div class="trasp-box ${neon}" style="border-left-style: dashed; background: rgba(255,255,255,0.03);">
+                            <span style="font-size:0.85em; color:var(--gray); font-weight:bold;">SPOSTAMENTO TECNICO</span><br>
+                            <span class="durata-highlight">${formatta(s)}</span>
+                          </div>`;
+                }
+            }
+        });
+        return h;
     }
 
-    // Avvio
-    window.onload = checkAccesso;
+    function startShiftCountdown() {
+        const display = document.getElementById('countdown-lavoro');
+        const update = () => {
+            const oggi = (window.datiTurni || []).find(t => t.viaggi && t.viaggi.length > 0);
+            if (!oggi) return;
+            let oraAttuale = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}).replace(':', '.');
+            let diff = calcolaDiff(oraAttuale, oggi.viaggi[0].inizio);
+            if (diff > 0 && diff < 720) {
+                display.style.display = 'block';
+                display.innerText = `⏳ INIZIA TRA: ${formatta(Math.floor(diff))}`;
+            } else { display.style.display = 'none'; }
+        };
+        update(); setInterval(update, 60000);
+    }
 </script>
-
 </body>
 </html>
