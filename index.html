@@ -82,18 +82,29 @@
 </div>
 
 <script>
-    function isPassato(turno) {
+    // Mappa globale dei mesi per tutte le funzioni
+    const MAPPA_MESI = {
+        'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
+        'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11
+    };
+
+    function parseDataTurno(stringaData) {
         try {
             const oggi = new Date();
-            const gOggi = oggi.getDate();
-            const parti = turno.data_estesa.trim().split(/\s+/);
-            const gTurno = parseInt(parti[1]);
-            // Gestione fine mese/inizio mese
-            if (gTurno === gOggi) return false;
-            if (gTurno > gOggi) return false;
-            if (gTurno < gOggi - 10) return false;
-            return true;
-        } catch (e) { return false; }
+            const parti = stringaData.trim().split(/\s+/);
+            const giorno = parseInt(parti[1]);
+            const mese = MAPPA_MESI[parti[2].toLowerCase()];
+            const anno = oggi.getFullYear();
+            return new Date(anno, mese, giorno);
+        } catch (e) { return null; }
+    }
+
+    function isPassato(turno) {
+        const dataT = parseDataTurno(turno.data_estesa);
+        if (!dataT) return false;
+        const oggi = new Date();
+        oggi.setHours(0, 0, 0, 0);
+        return dataT < oggi;
     }
 
     function render(tipo) {
@@ -113,17 +124,19 @@
         }
 
         if (tipo === 'passati') {
-            const numDomeniche = filtrati.filter(t => t.data_estesa.includes("DOM")).length;
+            // Conta le domeniche basandosi sul calendario reale
+            const numDomeniche = filtrati.filter(t => {
+                const d = parseDataTurno(t.data_estesa);
+                return d && d.getDay() === 0;
+            }).length;
             container.innerHTML = `<div class="stats-banner">🗓️ Totale Domeniche Lavorate: ${numDomeniche}</div>`;
         }
 
+        // Ordinamento cronologico
         filtrati.sort((a, b) => {
-            const oggi = new Date().getDate();
-            let gA = parseInt(a.data_estesa.split(" ")[1]);
-            let gB = parseInt(b.data_estesa.split(" ")[1]);
-            let valoreA = (gA < oggi - 10) ? gA + 31 : gA;
-            let valoreB = (gB < oggi - 10) ? gB + 31 : gB;
-            return valoreA - valoreB;
+            const dA = parseDataTurno(a.data_estesa);
+            const dB = parseDataTurno(b.data_estesa);
+            return (dA || 0) - (dB || 0);
         });
 
         filtrati.forEach((t, i) => {
@@ -137,7 +150,6 @@
 
     function calcolaDiff(inz, fine) {
         if(!inz || !fine) return 0;
-        // Supporta sia il formato con punto che con due punti
         let t1 = new Date(`2000-01-01T${inz.replace('.',':')}:00`);
         let t2 = new Date(`2000-01-01T${fine.replace('.',':')}:00`);
         let d = (t2 - t1) / 60000;
