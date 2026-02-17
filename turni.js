@@ -1,8 +1,116 @@
-var dataAggiornamento = '17/02/2026 17:30';
+var dataAggiornamento = '17/02/2026 17.52';
 var datiTurni = [
     {
-        "data_estesa": "MAR 17",
-        "servizio": "RS",
+        "data_estesa": "GIO 19 FEB",
+        "servizio": "1371",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "VEN 20 FEB",
+        "servizio": "2101",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "SAB 21 FEB",
+        "servizio": "3361",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MAR 24 FEB",
+        "servizio": "1061",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MER 25 FEB",
+        "servizio": "1112",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "GIO 26 FEB",
+        "servizio": "1322",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "VEN 27 FEB",
+        "servizio": "2074",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "SAB 28 FEB",
+        "servizio": "3325",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "LUN 02 MAR",
+        "servizio": "1005",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MAR 03 MAR",
+        "servizio": "1315",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MER 04 MAR",
+        "servizio": "1345",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "GIO 05 MAR",
+        "servizio": "1325",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "VEN 06 MAR",
+        "servizio": "2321",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "SAB 07 MAR",
+        "servizio": "FRIC",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "LUN 09 MAR",
+        "servizio": "1372",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MAR 10 MAR",
+        "servizio": "1072",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MER 11 MAR",
+        "servizio": "1052",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "GIO 12 MAR",
+        "servizio": "1065",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "VEN 13 MAR",
+        "servizio": "2065",
         "parcheggio": null,
         "viaggi": []
     },
@@ -168,12 +276,6 @@ var datiTurni = [
                 "pausa": ""
             }
         ]
-    },
-    {
-        "data_estesa": "LUN 23",
-        "servizio": "RS",
-        "parcheggio": null,
-        "viaggi": []
     },
     {
         "data_estesa": "MAR 24",
@@ -355,12 +457,6 @@ var datiTurni = [
         ]
     },
     {
-        "data_estesa": "DOM 01",
-        "servizio": "Rs",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
         "data_estesa": "LUN 02",
         "servizio": "1005",
         "parcheggio": null,
@@ -400,117 +496,9 @@ var datiTurni = [
         ]
     },
     {
-        "data_estesa": "GIO 19 FEB",
-        "servizio": "1371",
-        "parcheggio": "Peretola",
-        "viaggi": []
-    },
-    {
-        "data_estesa": "VEN 20 FEB",
-        "servizio": "2101",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "SAB 21 FEB",
-        "servizio": "3361",
-        "parcheggio": "Peretola",
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MAR 24 FEB",
-        "servizio": "1061",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MER 25 FEB",
-        "servizio": "1112",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "GIO 26 FEB",
-        "servizio": "1322",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "VEN 27 FEB",
-        "servizio": "2074",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "SAB 28 FEB",
-        "servizio": "3325",
-        "parcheggio": "Peretola",
-        "viaggi": []
-    },
-    {
-        "data_estesa": "LUN 02 MAR",
-        "servizio": "1005",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MAR 03 MAR",
-        "servizio": "1315",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MER 04 MAR",
-        "servizio": "1345",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "GIO 05 MAR",
-        "servizio": "1325",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "VEN 06 MAR",
-        "servizio": "2321",
-        "parcheggio": "Peretola",
-        "viaggi": []
-    },
-    {
         "data_estesa": "SAB 07 MAR",
         "servizio": "RIPOSO",
         "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "LUN 09 MAR",
-        "servizio": "1372",
-        "parcheggio": "Peretola",
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MAR 10 MAR",
-        "servizio": "1072",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "MER 11 MAR",
-        "servizio": "1052",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "GIO 12 MAR",
-        "servizio": "1065",
-        "parcheggio": null,
-        "viaggi": []
-    },
-    {
-        "data_estesa": "VEN 13 MAR",
-        "servizio": "2065",
-        "parcheggio": "Careggi",
         "viaggi": []
     }
 ];
