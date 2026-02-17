@@ -21,6 +21,12 @@
             font-size: 1.3em; margin-bottom: 25px; display: none;
         }
 
+        .stats-banner {
+            background: rgba(245, 158, 11, 0.1); border: 1px dashed var(--orange);
+            color: var(--orange); padding: 12px; border-radius: 10px; text-align: center;
+            font-weight: 900; margin-bottom: 20px; font-size: 0.9em; text-transform: uppercase;
+        }
+
         .card { background: var(--card); border-radius: 14px; margin-bottom: 15px; border: 1px solid var(--border); overflow: hidden; }
         .card-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #1e293b; }
         .card-header b { font-size: 1.1em; text-transform: uppercase; }
@@ -37,13 +43,19 @@
         .ora-box { min-width: 85px; color: var(--red); font-weight: 900; text-align: center; font-size: 1.3em; border-right: 2px solid var(--border); padding-right: 15px; margin-right: 15px; line-height: 1.1; }
         .ora-box span { font-size: 0.6em; color: var(--gray); display: block; text-transform: uppercase; margin: 3px 0; }
         
-        .tm-badge { display: inline-block; background: var(--accent); color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 1em; margin-bottom: 8px; box-shadow: 0 3px 0px #1d4ed8; }
-        .nodi { font-weight: 800; font-size: 1.2em; color: #ffffff; line-height: 1.3; }
+        .tm-container { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .tm-badge { background: var(--accent); color: white; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-size: 0.9em; box-shadow: 0 3px 0px #1d4ed8; }
+        .durata-giro { font-size: 0.8em; color: var(--gray); font-weight: bold; background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 4px; }
+        
+        .nodi { font-weight: 800; font-size: 1.1em; color: #ffffff; line-height: 1.3; }
         
         .pausa-label { margin: 25px 15px 10px 15px; padding: 12px; background: rgba(34, 197, 94, 0.1); color: var(--green); border-radius: 8px; font-weight: 900; text-align: center; border: 1px solid var(--green); }
 
         .trasp-box { margin: 40px 15px 15px 15px; padding: 20px; background: #1e293b; border-radius: 12px; border-left: 6px solid var(--gray); }
         .durata-highlight { color: #fff; background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 6px; font-weight: 900; margin-top: 10px; display: inline-block; }
+
+        .blink-ragg { animation: alert-bg 1s infinite alternate; border-left-color: var(--red) !important; }
+        @keyframes alert-bg { from { background: #1e293b; } to { background: rgba(255, 77, 77, 0.2); } }
 
         .btn-main { background: var(--accent); color: white; border: none; padding: 22px; border-radius: 15px; font-weight: 900; font-size: 1.3em; cursor: pointer; width: 100%; margin-bottom: 15px; }
         .btn-passati { background: #334155; font-size: 1.1em; padding: 15px; }
@@ -67,122 +79,78 @@
 
 <script>
     function isPassato(turno) {
-    try {
-        const parti = turno.data_estesa.split(" "); // "LUN", "16"
-        if (parti.length < 2) return false;
-
-        const gTurno = parseInt(parti[1]);
-        const oggi = new Date();
-        const gOggi = oggi.getDate();
-        const mOggi = oggi.getMonth();
-        const aOggi = oggi.getFullYear();
-
-        // 1. Se il numero del giorno è più piccolo di oggi (es. turno 16, oggi 17)
-        // (Gestiamo anche il caso fine mese: se oggi è 1 e il turno è 30/31)
-        let giornoPassato = false;
-        if (gTurno < gOggi) giornoPassato = true;
-        if (gOggi === 1 && gTurno > 25) giornoPassato = false; // Turno del mese scorso
-
-        if (giornoPassato) {
-            if (!turno.viaggi || turno.viaggi.length === 0) return true;
-
-            // Controlliamo se è un turno che finisce all'alba di oggi
-            const ultimaFine = turno.viaggi[turno.viaggi.length - 1].fine.replace(':', '.');
-            const oreFine = parseInt(ultimaFine.split(".")[0]);
-
-            if (oreFine >= 0 && oreFine <= 5) {
-                // Finisce oggi mattina
-                const [h, m] = ultimaFine.split(".").map(Number);
-                const fineEffettiva = new Date(aOggi, mOggi, gOggi, h, m);
-                const scadenza = new Date(fineEffettiva.getTime() + 30 * 60000);
-                return oggi > scadenza;
-            }
-            return true;
-        }
-
-        // 2. Se è il giorno stesso (oggi)
-        if (gTurno === gOggi) {
-            if (!turno.viaggi || turno.viaggi.length === 0) return false;
-
-            const ultimaFine = turno.viaggi[turno.viaggi.length - 1].fine.replace(':', '.');
-            const [h, m] = ultimaFine.split(".").map(Number);
-            
-            // Se l'ora di fine è tra le 00 e le 05, tecnicamente finisce DOMANI 
-            if (h >= 0 && h <= 5) return false; 
-
-            const fineEffettiva = new Date(aOggi, mOggi, gOggi, h, m);
-            const scadenza = new Date(fineEffettiva.getTime() + 30 * 60000);
-            return oggi > scadenza;
-        }
-
-        return false; // Futuro
-    } catch (e) {
-        console.error("Errore:", e);
-        return false;
-    }
-}
-
-    function calcolaDiff(inz, fine) {
         try {
-            if (!inz || !fine) return 0;
-            let t1 = new Date(`2000-01-01T${inz.replace('.', ':')}:00`);
-            let t2 = new Date(`2000-01-01T${fine.replace('.', ':')}:00`);
-            let d = (t2 - t1) / 60000;
-            return d < 0 ? d + 1440 : d;
-        } catch (e) { return 0; }
-    }
-
-    function formatta(m) {
-        let ore = Math.floor(m / 60); let min = m % 60;
-        return ore > 0 ? `${ore}h ${min < 10 ? '0' + min : min}m` : `${min} min`;
-    }
-
-    function avvia(tipo) {
-        if (localStorage.getItem("nikita_auth") !== "y") {
-            let p = prompt("PIN:");
-            if (p === "1234") { localStorage.setItem("nikita_auth", "y"); } else { return; }
-        }
-        document.getElementById('unlock-screen').style.display = 'none';
-        document.getElementById('app-view').style.display = 'block';
-        render(tipo);
-        if (tipo === 'attuali') startShiftCountdown();
+            const oggi = new Date();
+            const gOggi = oggi.getDate();
+            const parti = turno.data_estesa.trim().split(/\s+/);
+            const gTurno = parseInt(parti[1]);
+            if (gTurno === gOggi) return false;
+            if (gTurno > gOggi) return false;
+            if (gTurno < gOggi - 10) return false;
+            return true;
+        } catch (e) { return false; }
     }
 
     function render(tipo) {
         const container = document.getElementById('lista-turni');
         container.innerHTML = "";
         
-        // Verifichiamo che i dati esistano
-        if (typeof datiTurni === 'undefined' || !datiTurni) {
-            container.innerHTML = "<p style='text-align:center; color:var(--gray); padding:50px;'>Errore: Dati non caricati (file turni.js mancante?).</p>";
+        if (typeof datiTurni === 'undefined' || !datiTurni || datiTurni.length === 0) {
+            container.innerHTML = "<p style='text-align:center; color:var(--gray); padding:50px;'>Nessun dato trovato.</p>";
             return;
         }
 
-        const filtrati = datiTurni.filter(t => {
-            const passato = isPassato(t);
-            return tipo === 'passati' ? passato : !passato;
-        });
+        const filtrati = datiTurni.filter(t => tipo === 'passati' ? isPassato(t) : !isPassato(t));
 
         if (filtrati.length === 0) {
-            container.innerHTML = `<p style='text-align:center; color:var(--gray); padding:50px;'>Nessun turno ${tipo === 'passati' ? 'passato' : 'in programma'}.</p>`;
+            container.innerHTML = `<p style='text-align:center; color:var(--gray); padding:50px;'>Nessun turno trovato.</p>`;
             return;
         }
+
+        if (tipo === 'passati') {
+            const numDomeniche = filtrati.filter(t => t.data_estesa.includes("DOM")).length;
+            container.innerHTML = `<div class="stats-banner">🗓️ Totale Domeniche Lavorate: ${numDomeniche}</div>`;
+        }
+
+        filtrati.sort((a, b) => {
+            const oggi = new Date().getDate();
+            let gA = parseInt(a.data_estesa.split(" ")[1]);
+            let gB = parseInt(b.data_estesa.split(" ")[1]);
+            let valoreA = (gA < oggi - 10) ? gA + 31 : gA;
+            let valoreB = (gB < oggi - 10) ? gB + 31 : gB;
+            return valoreA - valoreB;
+        });
 
         filtrati.forEach((t, i) => {
             const card = document.createElement('div');
-            card.className = "card" + (i === 0 ? " open" : "");
+            card.className = "card" + (i === 0 && tipo === 'attuali' ? " open" : "");
             let badgeP = t.parcheggio ? `<div class="park-badge park-${t.parcheggio.toLowerCase()}">🅿️ AUTO A ${t.parcheggio.toUpperCase()}</div>` : "";
-            card.innerHTML = `
-                <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
-                    <b>${t.data_estesa}</b>
-                    <span class="tag-serv">${t.servizio}</span>
-                </div>
-                <div class="card-body">
-                    ${badgeP}
-                    ${disegnaViaggi(t.viaggi)}
-                </div>`;
+            card.innerHTML = `<div class="card-header" onclick="this.parentElement.classList.toggle('open')"><b>${t.data_estesa}</b><span class="tag-serv">${t.servizio}</span></div><div class="card-body">${badgeP}${disegnaViaggi(t.viaggi)}</div>`;
             container.appendChild(card);
         });
+    }
+
+    function calcolaDiff(inz, fine) {
+        if(!inz || !fine) return 0;
+        let t1 = new Date(`2000-01-01T${inz.replace('.',':')}:00`);
+        let t2 = new Date(`2000-01-01T${fine.replace('.',':')}:00`);
+        let d = (t2 - t1) / 60000;
+        return d < 0 ? d + 1440 : d;
+    }
+
+    function formatta(m) {
+        let ore = Math.floor(m / 60); let min = m % 60;
+        return ore > 0 ? `${ore}h ${min < 10 ? '0'+min : min}m` : `${min} min`;
+    }
+
+    function avvia(tipo) {
+        if (localStorage.getItem("nikita_auth") !== "y") {
+            let p = prompt("PIN:"); if (p === "1234") { localStorage.setItem("nikita_auth", "y"); } else { return; }
+        }
+        document.getElementById('unlock-screen').style.display = 'none';
+        document.getElementById('app-view').style.display = 'block';
+        render(tipo);
+        if(tipo === 'attuali') startShiftCountdown();
     }
 
     function disegnaViaggi(viaggi) {
@@ -191,14 +159,27 @@
         viaggi.forEach((v, i) => {
             let dur = calcolaDiff(v.inizio, v.fine);
             if (!v.tm) {
-                h += `<div class="trasp-box"><b>${v.inizio} ➜ ${v.fine}</b><br><small style="color:var(--gray)">RAGGIUNGIMENTO</small><br>${v.da} ➜ ${v.a}<br><span class="durata-highlight">⏱️ ${formatta(dur)}</span></div>`;
+                let classeBlink = (dur >= 25) ? "blink-ragg" : "";
+                h += `<div class="trasp-box ${classeBlink}"><b>${v.inizio} ➜ ${v.fine}</b><br><small>RAGGIUNGIMENTO</small><br>${v.da} ➜ ${v.a}<br><span class="durata-highlight">⏱️ ${formatta(dur)}</span></div>`;
             } else {
-                h += `<div class="viaggio-row"><div class="ora-box">${v.inizio}<span>AL</span>${v.fine}</div><div><div class="tm-badge">TM ${v.tm}</div><div class="nodi">${v.da}<br>➜ ${v.a}</div></div></div>`;
+                h += `
+                <div class="viaggio-row">
+                    <div class="ora-box">${v.inizio}<span>AL</span>${v.fine}</div>
+                    <div>
+                        <div class="tm-container">
+                            <div class="tm-badge">TM ${v.tm}</div>
+                            <div class="durata-giro">⏱️ ${formatta(dur)}</div>
+                        </div>
+                        <div class="nodi">${v.da}<br>➜ ${v.a}</div>
+                    </div>
+                </div>`;
                 if (v.pausa) h += `<div class="pausa-label">☕ PAUSA: ${v.pausa}</div>`;
             }
             if (i < viaggi.length - 1 && !v.pausa) {
-                let s = calcolaDiff(v.fine, viaggi[i + 1].inizio);
-                if (s > 0) h += `<div class="trasp-box" style="margin: 40px 15px; border-left-style: dashed; background:rgba(255,255,255,0.03)"><small>SPOSTAMENTO TECNICO</small><br><span class="durata-highlight">${formatta(s)}</span></div>`;
+                let s = calcolaDiff(v.fine, viaggi[i+1].inizio);
+                if (s > 0) {
+                    h += `<div class="trasp-box" style="margin: 20px 15px; border-left-style: dashed; border-left-width: 2px; background:rgba(255,255,255,0.03); padding: 10px 20px;"><small style="color:var(--gray)">SPOSTAMENTO TECNICO</small><br><span class="durata-highlight" style="font-size:0.8em;">${formatta(s)}</span></div>`;
+                }
             }
         });
         return h;
@@ -207,9 +188,9 @@
     function startShiftCountdown() {
         const display = document.getElementById('countdown-lavoro');
         const update = () => {
-            const oggi = (datiTurni || []).find(t => !isPassato(t) && t.viaggi && t.viaggi.length > 0);
-            if (!oggi) { display.style.display = 'none'; return; }
-            let oraAttuale = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }).replace(':', '.');
+            const oggi = (window.datiTurni || []).find(t => !isPassato(t) && t.viaggi && t.viaggi.length > 0);
+            if (!oggi) return;
+            let oraAttuale = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'}).replace(':', '.');
             let diff = calcolaDiff(oraAttuale, oggi.viaggi[0].inizio);
             if (diff > 0 && diff < 720) {
                 display.style.display = 'block';
