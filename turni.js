@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 18.23';
+var dataAggiornamento = '17/02/2026 18.27';
 var datiTurni = [
     {
         "data_estesa": "MAR 17",
@@ -11,14 +11,6 @@ var datiTurni = [
         "servizio": "1311",
         "parcheggio": null,
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "",
                 "da": "DEPOSITO GEST",
@@ -51,14 +43,6 @@ var datiTurni = [
         "parcheggio": "Peretola",
         "viaggi": [
             {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
-            {
                 "tm": "T2.1-137",
                 "da": "PERETOLA AEROPORTO",
                 "inizio": "19.22",
@@ -89,14 +73,6 @@ var datiTurni = [
         "servizio": "2101",
         "parcheggio": null,
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "",
                 "da": "DEPOSITO GEST",
@@ -129,14 +105,6 @@ var datiTurni = [
         "parcheggio": "Peretola",
         "viaggi": [
             {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
-            {
                 "tm": "T2.1-335",
                 "da": "PERETOLA AEROPORTO",
                 "inizio": "19.29",
@@ -167,14 +135,6 @@ var datiTurni = [
         "servizio": "4081",
         "parcheggio": "Careggi",
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "",
                 "da": "CAREGGI SOSTA NOTTURNA",
@@ -221,14 +181,6 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
-            {
                 "tm": "",
                 "da": "DEPOSITO GEST",
                 "inizio": "17.17",
@@ -259,14 +211,6 @@ var datiTurni = [
         "servizio": "1112",
         "parcheggio": null,
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "",
                 "da": "DEPOSITO GEST",
@@ -299,14 +243,6 @@ var datiTurni = [
         "parcheggio": null,
         "viaggi": [
             {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
-            {
                 "tm": "T2.1-135",
                 "da": "PERETOLA AEROPORTO",
                 "inizio": "12.39",
@@ -337,14 +273,6 @@ var datiTurni = [
         "servizio": "2074",
         "parcheggio": null,
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "T1.3-211",
                 "da": "DEPOSITO GEST",
@@ -384,14 +312,6 @@ var datiTurni = [
         "servizio": "3325",
         "parcheggio": "Peretola",
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "T2.1-335",
                 "da": "TRONCHINO PERETOLA",
@@ -445,14 +365,6 @@ var datiTurni = [
         "servizio": "1005",
         "parcheggio": null,
         "viaggi": [
-            {
-                "tm": "TM",
-                "da": "Nodo Inizio",
-                "inizio": "h Inizio",
-                "fine": "h Fine",
-                "a": "Nodo Fine",
-                "pausa": ""
-            },
             {
                 "tm": "T1.3-124",
                 "da": "CAREGGI SOSTA NOTTURNA",
