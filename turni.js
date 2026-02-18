@@ -1,4 +1,4 @@
-var dataAggiornamento = '17/02/2026 18.31';
+var dataAggiornamento = '18/02/2026 12.14';
 var datiTurni = [
     {
         "data_estesa": "MAR 17",
@@ -511,6 +511,55 @@ var datiTurni = [
         "data_estesa": "VEN 13 MAR",
         "servizio": "2065",
         "parcheggio": "Careggi",
+        "viaggi": []
+    },
+    {
+        "data_estesa": "LUN 23",
+        "servizio": "RIPOSO",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "DOM 01",
+        "servizio": "RIPOSO",
+        "parcheggio": null,
+        "viaggi": []
+    },
+    {
+        "data_estesa": "MAR 03",
+        "servizio": "1315",
+        "parcheggio": null,
+        "viaggi": [
+            {
+                "tm": "T2.1-130",
+                "da": "DEPOSITO GEST",
+                "inizio": "04.17",
+                "fine": "08.30",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            },
+            {
+                "tm": "T2.1-135",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "08.46",
+                "fine": "10.09",
+                "a": "PERETOLA AEROPORTO",
+                "pausa": ""
+            },
+            {
+                "tm": "",
+                "da": "PERETOLA AEROPORTO",
+                "inizio": "10.09",
+                "fine": "10.39",
+                "a": "DEPOSITO GEST",
+                "pausa": ""
+            }
+        ]
+    },
+    {
+        "data_estesa": "GIO 05 MAR",
+        "servizio": "1383",
+        "parcheggio": null,
         "viaggi": []
     }
 ];
